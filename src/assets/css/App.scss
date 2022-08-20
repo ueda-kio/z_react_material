@@ -1,0 +1,39 @@
+.c-footer {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 30px;
+	padding: 20px 40px;
+
+	&__logo {
+		font-size: 30px;
+		font-weight: bold;
+	}
+
+	&__list {
+		display: flex;
+		gap: 16px;
+		padding: 12px;
+	}
+}
+
+.c-header {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 30px;
+	padding: 20px 40px;
+
+	&__logo {
+		font-size: 30px;
+		font-weight: bold;
+	}
+
+	&__list {
+		display: flex;
+		gap: 16px;
+		padding: 12px;
+	}
+}
