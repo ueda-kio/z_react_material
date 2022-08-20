@@ -9,17 +9,31 @@ import Reception from './sections/Reception';
 
 const App: React.FC = () => {
 	const [value, setValue] = useState('フェア名');
-	const test = 'test';
+	const [isRealTime, setIsRealTime] = useState(false);
+	const [isSummarize, setIsSummarize] = useState(false);
 
 	const providerValue = useMemo(
 		() => ({ value, setValue }),
 		[value, setValue]
 	);
 
+	// リアルタイム予約state
+	const realTime = useMemo(
+		() => ({ isRealTime, setIsRealTime }),
+		[isRealTime, setIsRealTime]
+	);
+	// まとめて予約state
+	const summarize = useMemo(
+		() => ({ isSummarize, setIsSummarize }),
+		[isSummarize, setIsSummarize]
+	);
+
 	return (
 		<form className="form">
 			<GlobalStyle />
-			<ContextWrapper.Provider value={{ providerValue, test }}>
+			<ContextWrapper.Provider
+				value={{ providerValue, realTime, summarize }}
+			>
 				<BasicInfo />
 				<Reception />
 			</ContextWrapper.Provider>

@@ -5,7 +5,14 @@ type InitObjType = {
 		value: string;
 		setValue: React.Dispatch<React.SetStateAction<string>>;
 	};
-	test: string;
+	realTime: {
+		isRealTime: boolean;
+		setIsRealTime: React.Dispatch<React.SetStateAction<boolean>>;
+	};
+	summarize: {
+		isSummarize: boolean;
+		setIsSummarize: React.Dispatch<React.SetStateAction<boolean>>;
+	};
 };
 
 export const ContextWrapper = createContext({} as InitObjType);
