@@ -1,5 +1,9 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
+type FairContents = {
+	category: string;
+};
+
 type InitObjType = {
 	providerValue: {
 		value: string;
@@ -12,6 +16,14 @@ type InitObjType = {
 	summarize: {
 		isSummarize: boolean;
 		setIsSummarize: React.Dispatch<React.SetStateAction<boolean>>;
+	};
+	noReception: {
+		isNoReception: boolean;
+		setIsNoReception: React.Dispatch<React.SetStateAction<boolean>>;
+	};
+	fairContents: {
+		contents: FairContents[];
+		setContents: React.Dispatch<React.SetStateAction<FairContents[]>>;
 	};
 };
 

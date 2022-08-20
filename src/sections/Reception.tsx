@@ -8,7 +8,7 @@ import { ContextWrapper } from '../ContextWrapper';
 import { Checkbox } from '@mui/material';
 
 const Reception = () => {
-	const { realTime, summarize } = useContext(ContextWrapper);
+	const { realTime, summarize, noReception } = useContext(ContextWrapper);
 	const [reception, setReception] = useState('');
 	const [receptionLimitByNet, setReceptionLimitByNet] = useState('');
 	const [receptionLimitByTel, setReceptionLimitByTel] = useState('');
@@ -26,6 +26,11 @@ const Reception = () => {
 							<RadioGroup
 								aria-labelledby="demo-radio-buttons-group-label"
 								name="reception"
+								onChange={(e) =>
+									noReception.setIsNoReception(
+										e.target.value === '03' ? true : false
+									)
+								}
 							>
 								<FormControlLabel
 									control={
@@ -137,9 +142,13 @@ const Reception = () => {
 									control={
 										<Radio
 											value="03"
-											onChange={(e) =>
-												setReception(e.target.value)
-											}
+											checked={noReception.isNoReception}
+											onChange={(e) => {
+												setReception(e.target.value);
+												noReception.setIsNoReception(
+													e.currentTarget.checked
+												);
+											}}
 										/>
 									}
 									label="予約不要"
