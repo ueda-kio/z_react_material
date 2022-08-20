@@ -1,14 +1,10 @@
-// import { useContext, useState } from 'react';
-// import { ContextWrapper } from '../ContextWrapper';
+import { useContext, useState } from 'react';
+import { ContextWrapper } from '../ContextWrapper';
 import { Button } from '@mui/material';
-import { useState } from 'react';
 import FairContent from '../template/FairContent';
 
 const FairContentWrapper = () => {
-	// const { realTime, summarize, noReception } = useContext(ContextWrapper);
-	// const [value, setValue] = useState('');
-	const [contentLen, setContentLen] = useState(1);
-	const [content, setContent] = useState([{ category: '' }]);
+	const { fair } = useContext(ContextWrapper);
 
 	return (
 		<section className="section">
@@ -20,15 +16,15 @@ const FairContentWrapper = () => {
 				<div className="section__item">
 					<dt className="section__item__head">フェアコンテンツ</dt>
 					<dd className="section__item__content">
-						{content.map((_, i) => (
+						{fair.fairContents.map((_, i) => (
 							<div className="section__contents" key={i}>
-								<FairContent />
+								<FairContent index={i} />
 							</div>
 						))}
 						<Button
 							variant="outlined"
 							onClick={() =>
-								setContent((prev) => [
+								fair.setFairContents((prev) => [
 									...prev,
 									{ category: '' },
 								])

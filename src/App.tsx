@@ -11,6 +11,7 @@ const App: React.FC = () => {
 	const [isRealTime, setIsRealTime] = useState(false);
 	const [isSummarize, setIsSummarize] = useState(false);
 	const [isNoReception, setIsNoReception] = useState(false);
+	const [fairContents, setFairContents] = useState([{ category: '' }]);
 
 	const providerValue = useMemo(
 		() => ({ value, setValue }),
@@ -32,12 +33,23 @@ const App: React.FC = () => {
 		() => ({ isNoReception, setIsNoReception }),
 		[isNoReception, setIsNoReception]
 	);
+	// フェアカテゴリ
+	const fair = useMemo(
+		() => ({ fairContents, setFairContents }),
+		[fairContents, setFairContents]
+	);
 
 	return (
 		<form className="form">
 			<GlobalStyle />
 			<ContextWrapper.Provider
-				value={{ providerValue, realTime, summarize, noReception }}
+				value={{
+					providerValue,
+					realTime,
+					summarize,
+					noReception,
+					fair,
+				}}
 			>
 				<BasicInfo />
 				<Reception />

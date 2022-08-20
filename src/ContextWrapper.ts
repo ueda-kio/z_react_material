@@ -21,9 +21,9 @@ type InitObjType = {
 		isNoReception: boolean;
 		setIsNoReception: React.Dispatch<React.SetStateAction<boolean>>;
 	};
-	fairContents: {
-		contents: FairContents[];
-		setContents: React.Dispatch<React.SetStateAction<FairContents[]>>;
+	fair: {
+		fairContents: FairContents[];
+		setFairContents: React.Dispatch<React.SetStateAction<FairContents[]>>;
 	};
 };
 

@@ -9,12 +9,51 @@ import {
 	TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ContextWrapper } from '../ContextWrapper';
 
-const FairContent = () => {
-	const { realTime, summarize, noReception } = useContext(ContextWrapper);
-	const [value, setValue] = useState('');
+type Props = {
+	index: number;
+};
+
+const FairContent: React.FC<Props> = ({ index }) => {
+	const { summarize, noReception, fair } = useContext(ContextWrapper);
+	const [receptionTypeValue, setReceptionTypeValue] = useState('');
+	const [categoryValue, setCategoryValue] = useState('');
+
+	const handleChangeCategory = (e: { target: { value: string } }) => {
+		setCategoryValue(e.target.value);
+	};
+
+	const categories = ['カテゴリ01', 'カテゴリ02', 'カテゴリ03'];
+
+	/**
+	 * 自身のインデックスに該当するfairContentのstateにカテゴリ名を格納する
+	 * @param {Event} e selectボックスのchangeイベント
+	 */
+	const setCategoryNameToState = (e: { target: { value: string } }) => {
+		const categoriesIndex = Number(e.target.value) - 1;
+		const categoryName = categories[categoriesIndex] ?? '';
+		console.log('categoryName', categoryName);
+
+		fair.setFairContents(
+			fair.fairContents.map((item, i) =>
+				i === index ? { category: categoryName } : item
+			)
+		);
+	};
+
+	/**
+	 * 「削除」ボタンからコンテンツを削除する
+	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
+	 */
+	const deleteSelf = () => {
+		fair.setFairContents(fair.fairContents.filter((_, i) => i !== index));
+	};
+
+	useEffect(() => {
+		console.log('fair.fairContents', fair.fairContents);
+	}, [fair.fairContents]);
 
 	return (
 		<div className="c-cassette">
@@ -27,14 +66,22 @@ const FairContent = () => {
 						<Select
 							labelId="demo-simple-select-label"
 							id="demo-simple-select"
-							label="Age"
+							label="カテゴリー"
+							value={categoryValue}
+							onChange={(e) => {
+								handleChangeCategory(e);
+								setCategoryNameToState(e);
+							}}
 						>
-							<MenuItem value={10}>Ten</MenuItem>
-							<MenuItem value={20}>Twenty</MenuItem>
-							<MenuItem value={30}>Thirty</MenuItem>
+							<MenuItem value={1}>カテゴリ01</MenuItem>
+							<MenuItem value={2}>カテゴリ02</MenuItem>
+							<MenuItem value={3}>カテゴリ03</MenuItem>
 						</Select>
 					</FormControl>
 				</Box>
+				<button type="button" onClick={deleteSelf}>
+					削除
+				</button>
 			</div>
 			<div className="c-cassette__body">
 				<dl className="c-cassette__dl">
@@ -45,9 +92,13 @@ const FairContent = () => {
 								row
 								aria-labelledby="demo-radio-buttons-group-label"
 								name="reception_02"
-								value={noReception.isNoReception ? '03' : value}
+								value={
+									noReception.isNoReception
+										? '03'
+										: receptionTypeValue
+								}
 								onChange={(e) => {
-									setValue(e.target.value);
+									setReceptionTypeValue(e.target.value);
 									noReception.setIsNoReception(
 										e.target.value === '03' ? true : false
 									);
