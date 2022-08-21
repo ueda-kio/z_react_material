@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { ContextWrapper } from '../ContextWrapper';
 import { Button } from '@mui/material';
-import FairContent from '../template/FairContent';
+import { FairContent } from '../template/';
 
 const FairContentWrapper = () => {
 	const { fair } = useContext(ContextWrapper);
