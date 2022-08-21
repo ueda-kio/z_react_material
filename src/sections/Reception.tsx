@@ -13,6 +13,23 @@ const Reception = () => {
 	const [receptionLimitByNet, setReceptionLimitByNet] = useState('');
 	const [receptionLimitByTel, setReceptionLimitByTel] = useState('');
 
+	const [localRealTime, setLocalRealTime] = useState(false);
+	const [localSummarize, setLocalSummarize] = useState(false);
+
+	const handleChangeCategory = (e: { target: { value: string } }) => {
+		const value = e.target.value;
+		setReception(value);
+		noReception.setIsNoReception(value === '03' ? true : false);
+
+		if (value !== '01') {
+			realTime.setIsRealTime(false);
+			summarize.setIsSummarize(false);
+		} else {
+			realTime.setIsRealTime(localRealTime);
+			summarize.setIsSummarize(localSummarize);
+		}
+	};
+
 	return (
 		<section className="section">
 			<header className="section__header">
@@ -26,21 +43,13 @@ const Reception = () => {
 							<RadioGroup
 								aria-labelledby="demo-radio-buttons-group-label"
 								name="reception"
-								onChange={(e) =>
-									noReception.setIsNoReception(
-										e.target.value === '03' ? true : false
-									)
+								value={
+									noReception.isNoReception ? '03' : reception
 								}
+								onChange={(e) => handleChangeCategory(e)}
 							>
 								<FormControlLabel
-									control={
-										<Radio
-											value="01"
-											onChange={(e) =>
-												setReception(e.target.value)
-											}
-										/>
-									}
+									control={<Radio value="01" />}
 									label="ネット・電話予約受付"
 								/>
 								{reception === '01' ? (
@@ -64,19 +73,23 @@ const Reception = () => {
 													control={
 														<Checkbox
 															checked={
-																realTime.isRealTime
+																localRealTime
 															}
-															onChange={(e) =>
+															onChange={(e) => {
 																realTime.setIsRealTime(
 																	e.target
 																		.checked
-																)
-															}
+																);
+																setLocalRealTime(
+																	e.target
+																		.checked
+																);
+															}}
 														/>
 													}
-													label="予約方法_A"
+													label="リアルタイム予約"
 												/>
-												{realTime.isRealTime ? (
+												{localRealTime ? (
 													<div>test</div>
 												) : (
 													false
@@ -87,19 +100,23 @@ const Reception = () => {
 													control={
 														<Checkbox
 															checked={
-																summarize.isSummarize
+																localSummarize
 															}
-															onChange={(e) =>
+															onChange={(e) => {
 																summarize.setIsSummarize(
 																	e.target
 																		.checked
-																)
-															}
+																);
+																setLocalSummarize(
+																	e.target
+																		.checked
+																);
+															}}
 														/>
 													}
-													label="予約方法_B"
+													label="まとめて予約"
 												/>
-												{realTime.isRealTime ? (
+												{localSummarize ? (
 													<div>test</div>
 												) : (
 													false
@@ -111,14 +128,7 @@ const Reception = () => {
 									false
 								)}
 								<FormControlLabel
-									control={
-										<Radio
-											value="02"
-											onChange={(e) =>
-												setReception(e.target.value)
-											}
-										/>
-									}
+									control={<Radio value="02" />}
 									label="電話のみ"
 								/>
 								{reception === '02' ? (
@@ -139,18 +149,7 @@ const Reception = () => {
 									false
 								)}
 								<FormControlLabel
-									control={
-										<Radio
-											value="03"
-											checked={noReception.isNoReception}
-											onChange={(e) => {
-												setReception(e.target.value);
-												noReception.setIsNoReception(
-													e.currentTarget.checked
-												);
-											}}
-										/>
-									}
+									control={<Radio value="03" />}
 									label="予約不要"
 								/>
 							</RadioGroup>
