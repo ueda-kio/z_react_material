@@ -25,21 +25,38 @@ const FairContent: React.FC<Props> = ({ index }) => {
 		setCategoryValue(e.target.value);
 	};
 
-	const categories = ['カテゴリ01', 'カテゴリ02', 'カテゴリ03'];
+	/**
+	 * 選択された受付単位をfairContentに格納する
+	 * @param {Event} e radioボタンのchangeイベント
+	 */
+	const setUnitToState = (e: { target: { value: string } }) => {
+		fair.setFairContents(
+			fair.fairContents.map((item, i) => {
+				const newContent = {
+					id: item.id,
+					category: item.category,
+					unit: e.target.value,
+				};
+				return i === index ? newContent : item;
+			})
+		);
+	};
 
 	/**
 	 * 自身のインデックスに該当するfairContentのstateにカテゴリ名を格納する
 	 * @param {Event} e selectボックスのchangeイベント
 	 */
 	const setCategoryNameToState = (e: { target: { value: string } }) => {
-		const categoriesIndex = Number(e.target.value) - 1;
-		const categoryName = categories[categoriesIndex] ?? '';
-		console.log('categoryName', categoryName);
-
+		const value = e.target.value;
 		fair.setFairContents(
-			fair.fairContents.map((item, i) =>
-				i === index ? { category: categoryName } : item
-			)
+			fair.fairContents.map((item, i) => {
+				const newContent = {
+					id: item.id,
+					category: value,
+					unit: item.unit,
+				};
+				return i === index ? newContent : item;
+			})
 		);
 	};
 
@@ -73,9 +90,9 @@ const FairContent: React.FC<Props> = ({ index }) => {
 								setCategoryNameToState(e);
 							}}
 						>
-							<MenuItem value={1}>カテゴリ01</MenuItem>
-							<MenuItem value={2}>カテゴリ02</MenuItem>
-							<MenuItem value={3}>カテゴリ03</MenuItem>
+							<MenuItem value="01">カテゴリ01</MenuItem>
+							<MenuItem value="02">カテゴリ02</MenuItem>
+							<MenuItem value="03">カテゴリ03</MenuItem>
 						</Select>
 					</FormControl>
 				</Box>
@@ -151,7 +168,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 					<div className="c-cassette__dl__item">
 						<dt className="c-cassette__dl__head">受付単位</dt>
 						<dd className="c-cassette__dl__content">
-							<RadioGroup row>
+							<RadioGroup row onChange={setUnitToState}>
 								<FormControlLabel
 									control={<Radio />}
 									value="01"
@@ -231,16 +248,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 												</div>
 											</div> */}
 						</div>
-						<div className="c-cassette__contents">
-							<TextField
-								hiddenLabel
-								fullWidth
-								multiline
-								rows={3}
-								placeholder="詳細"
-								name="fair_description"
-							/>
-						</div>
+						<div className="c-cassette__contents">画像</div>
 					</div>
 				</div>
 			</div>

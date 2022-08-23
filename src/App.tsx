@@ -1,17 +1,25 @@
 import React, { useMemo, useState } from 'react';
+import { nanoid } from 'nanoid';
 import './assets/css/reset.css';
 import './assets/css/App.scss';
-// import { Header, Footer } from './template';
 import { ContextWrapper } from './ContextWrapper';
 import GlobalStyle from './style/GlobalStyle';
-import { BasicInfo, Reception, FairContentWrapper } from './sections/';
+import {
+	BasicInfo,
+	Reception,
+	FairContentWrapper,
+	Schedule,
+} from './sections/';
 
 const App: React.FC = () => {
 	const [value, setValue] = useState('フェア名');
 	const [isRealTime, setIsRealTime] = useState(false);
 	const [isSummarize, setIsSummarize] = useState(false);
 	const [isNoReception, setIsNoReception] = useState(false);
-	const [fairContents, setFairContents] = useState([{ category: '' }]);
+	const [fairContents, setFairContents] = useState([
+		{ id: nanoid(), category: '', unit: '' },
+	]);
+	const [isMultiple, setIsMultiple] = useState(false);
 
 	const providerValue = useMemo(
 		() => ({ value, setValue }),

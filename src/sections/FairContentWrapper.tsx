@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
+import { nanoid } from 'nanoid';
 import { ContextWrapper } from '../ContextWrapper';
 import { Button } from '@mui/material';
 import { FairContent } from '../template/';
@@ -16,8 +17,8 @@ const FairContentWrapper = () => {
 				<div className="section__item">
 					<dt className="section__item__head">フェアコンテンツ</dt>
 					<dd className="section__item__content">
-						{fair.fairContents.map((_, i) => (
-							<div className="section__contents" key={i}>
+						{fair.fairContents.map((content, i) => (
+							<div className="section__contents" key={content.id}>
 								<FairContent index={i} />
 							</div>
 						))}
@@ -26,7 +27,7 @@ const FairContentWrapper = () => {
 							onClick={() =>
 								fair.setFairContents((prev) => [
 									...prev,
-									{ category: '' },
+									{ id: nanoid(), category: '', unit: '' },
 								])
 							}
 						>

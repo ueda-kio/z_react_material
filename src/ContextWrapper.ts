@@ -1,7 +1,9 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
-type FairContents = {
+export type FairContents = {
+	id: string;
 	category: string;
+	unit: string;
 };
 
 type InitObjType = {
