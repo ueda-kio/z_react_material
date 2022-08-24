@@ -46,6 +46,11 @@ const App: React.FC = () => {
 		() => ({ fairContents, setFairContents }),
 		[fairContents, setFairContents]
 	);
+	// 複数部制開催
+	const multipleEvent = useMemo(
+		() => ({ isMultiple, setIsMultiple }),
+		[isMultiple, setIsMultiple]
+	);
 
 	return (
 		<form className="form">
@@ -57,11 +62,13 @@ const App: React.FC = () => {
 					summarize,
 					noReception,
 					fair,
+					multipleEvent,
 				}}
 			>
 				<BasicInfo />
 				<Reception />
 				<FairContentWrapper />
+				<Schedule />
 			</ContextWrapper.Provider>
 		</form>
 	);

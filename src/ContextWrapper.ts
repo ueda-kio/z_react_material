@@ -27,6 +27,10 @@ type InitObjType = {
 		fairContents: FairContents[];
 		setFairContents: React.Dispatch<React.SetStateAction<FairContents[]>>;
 	};
+	multipleEvent: {
+		isMultiple: boolean;
+		setIsMultiple: React.Dispatch<React.SetStateAction<boolean>>;
+	};
 };
 
 export const ContextWrapper = createContext({} as InitObjType);

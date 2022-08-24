@@ -123,7 +123,7 @@ body {
 	}
 
 	&__body {
-		padding: 0px 32px 8px;
+		padding: 24px;
 	}
 
 	&__dl {
@@ -133,6 +133,14 @@ body {
 			grid-template-columns: 80px 1fr;
 			gap: 26px;
 			padding: 16px 0;
+
+			&:first-child {
+				padding-top: 0;
+			}
+
+			&:last-child {
+				padding-bottom: 0;
+			}
 		}
 
 		&__item+&__item {
@@ -155,6 +163,14 @@ body {
 
 	&__contents {
 		padding: 16px 0;
+
+		&:first-child {
+			padding-top: 0;
+		}
+
+		&:last-child {
+			padding-bottom: 0;
+		}
 	}
 
 	&__contents+&__contents {
@@ -166,4 +182,41 @@ body {
 	display: block;
 	color: red;
 	font-size: 0.8rem;
+
+	& + .c-alert {
+		margin-top: 4px;
+	}
+}
+
+.scheduleContent {
+	padding: 32px;
+	background-color: #fff;
+	box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 4px;
+	border-radius: 16px;
+
+	&__head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 8px;
+	}
+
+	&__body {
+		margin-top: 12px;
+	}
+
+	&__title {
+		font-weight: bold;
+	}
+}
+
+.scheduleWrap {
+	&__contents {
+		margin-top: 32px;
+	}
+	&__contents__item+&__contents__item {
+		margin-top: 24px;
+		padding-top: 24px;
+		border-top: 1px solid $border;
+	}
 }

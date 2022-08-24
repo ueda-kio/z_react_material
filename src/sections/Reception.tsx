@@ -8,7 +8,8 @@ import { ContextWrapper } from '../ContextWrapper';
 import { Checkbox } from '@mui/material';
 
 const Reception = () => {
-	const { realTime, summarize, noReception } = useContext(ContextWrapper);
+	const { realTime, summarize, noReception, multipleEvent } =
+		useContext(ContextWrapper);
 	const [reception, setReception] = useState('');
 	const [receptionLimitByNet, setReceptionLimitByNet] = useState('');
 	const [receptionLimitByTel, setReceptionLimitByTel] = useState('');
@@ -102,6 +103,9 @@ const Reception = () => {
 															checked={
 																localSummarize
 															}
+															disabled={
+																multipleEvent.isMultiple
+															}
 															onChange={(e) => {
 																summarize.setIsSummarize(
 																	e.target
@@ -116,8 +120,10 @@ const Reception = () => {
 													}
 													label="まとめて予約"
 												/>
-												{localSummarize ? (
-													<div>test</div>
+												{multipleEvent.isMultiple ? (
+													<strong className="c-alert">
+														複数部制設定時は、まとめて予約を選択できません。
+													</strong>
 												) : (
 													false
 												)}
