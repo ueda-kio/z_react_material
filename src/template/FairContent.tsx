@@ -11,13 +11,27 @@ import {
 import { Box } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
 import { ContextWrapper } from '../ContextWrapper';
+import * as Contexts from '../context/contexts';
 
 type Props = {
 	index: number;
 };
 
 const FairContent: React.FC<Props> = ({ index }) => {
-	const { summarize, noReception, fair } = useContext(ContextWrapper);
+	const { isRealTime, dispatch_realTime } = useContext(
+		Contexts.RealTimeContext
+	);
+	const { isSummarize, dispatch_summarize } = useContext(
+		Contexts.SummarizeContext
+	);
+	const { isNoReception, dispatch_noReception } = useContext(
+		Contexts.NoReceptionContext
+	);
+	const { isMultiEvent, dispatch_multiEvent } = useContext(
+		Contexts.MultiEventContext
+	);
+	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
+
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
 	const [categoryValue, setCategoryValue] = useState('');
 
@@ -30,16 +44,11 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	 * @param {Event} e radioボタンのchangeイベント
 	 */
 	const setUnitToState = (e: { target: { value: string } }) => {
-		fair.setFairContents(
-			fair.fairContents.map((item, i) => {
-				const newContent = {
-					id: item.id,
-					category: item.category,
-					unit: e.target.value,
-				};
-				return i === index ? newContent : item;
-			})
-		);
+		dispatch_fair({
+			type: 'SET_UNIT',
+			index: index,
+			unit: e.target.value,
+		});
 	};
 
 	/**
@@ -48,16 +57,11 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	 */
 	const setCategoryNameToState = (e: { target: { value: string } }) => {
 		const value = e.target.value;
-		fair.setFairContents(
-			fair.fairContents.map((item, i) => {
-				const newContent = {
-					id: item.id,
-					category: value,
-					unit: item.unit,
-				};
-				return i === index ? newContent : item;
-			})
-		);
+		dispatch_fair({
+			type: 'SET_CATEGORY',
+			index: index,
+			category: value,
+		});
 	};
 
 	/**
@@ -65,12 +69,15 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
 	 */
 	const deleteSelf = () => {
-		fair.setFairContents(fair.fairContents.filter((_, i) => i !== index));
+		dispatch_fair({
+			type: 'DELETE',
+			index,
+		});
 	};
 
 	useEffect(() => {
-		console.log('fair.fairContents', fair.fairContents);
-	}, [fair.fairContents]);
+		console.log('fair.fairContents', fairContents);
+	}, [fairContents]);
 
 	return (
 		<div className="c-cassette">
@@ -110,53 +117,44 @@ const FairContent: React.FC<Props> = ({ index }) => {
 								aria-labelledby="demo-radio-buttons-group-label"
 								name="reception_02"
 								value={
-									noReception.isNoReception
-										? '03'
-										: receptionTypeValue
+									isNoReception ? '03' : receptionTypeValue
 								}
 								onChange={(e) => {
 									setReceptionTypeValue(e.target.value);
-									noReception.setIsNoReception(
-										e.target.value === '03' ? true : false
+									dispatch_noReception(
+										e.target.value === '03'
+											? 'TRUE'
+											: 'FALSE'
 									);
 								}}
 							>
 								<FormControlLabel
 									control={<Radio />}
 									value="01"
-									disabled={
-										summarize.isSummarize ||
-										noReception.isNoReception
-									}
+									disabled={isSummarize || isNoReception}
 									label="要予約"
 								/>
 								<FormControlLabel
 									control={<Radio />}
 									value="02"
-									disabled={
-										summarize.isSummarize ||
-										noReception.isNoReception
-									}
+									disabled={isSummarize || isNoReception}
 									label="予約優先"
 								/>
 								<FormControlLabel
 									control={<Radio />}
 									value="03"
-									disabled={
-										summarize.isSummarize ||
-										noReception.isNoReception
-									}
+									disabled={isSummarize || isNoReception}
 									label="予約不要"
 								/>
 							</RadioGroup>
-							{summarize.isSummarize ? (
+							{isSummarize ? (
 								<strong className="c-alert">
 									まとめて予約設定中のため、種別を変更することはできません。
 								</strong>
 							) : (
 								false
 							)}
-							{noReception.isNoReception ? (
+							{isNoReception ? (
 								<strong className="c-alert">
 									予約不要が設定されているよ！
 								</strong>
@@ -172,30 +170,24 @@ const FairContent: React.FC<Props> = ({ index }) => {
 								<FormControlLabel
 									control={<Radio />}
 									value="01"
-									disabled={
-										summarize.isSummarize ||
-										noReception.isNoReception
-									}
+									disabled={isSummarize || isNoReception}
 									label="名"
 								/>
 								<FormControlLabel
 									control={<Radio />}
 									value="02"
-									disabled={
-										summarize.isSummarize ||
-										noReception.isNoReception
-									}
+									disabled={isSummarize || isNoReception}
 									label="組"
 								/>
 							</RadioGroup>
-							{summarize.isSummarize ? (
+							{isSummarize ? (
 								<strong className="c-alert">
 									まとめて予約設定中のため、種別を変更することはできません。
 								</strong>
 							) : (
 								false
 							)}
-							{noReception.isNoReception ? (
+							{isNoReception ? (
 								<strong className="c-alert">
 									予約不要が設定されているよ！
 								</strong>

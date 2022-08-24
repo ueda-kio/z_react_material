@@ -3,11 +3,24 @@ import React, { useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { ContextWrapper } from '../ContextWrapper';
 import { ScheduleContent } from '../template';
+import * as Contexts from '../context/contexts';
 
 const Schedule = () => {
-	const { summarize, multipleEvent, fair } = useContext(ContextWrapper);
+	const { isRealTime, dispatch_realTime } = useContext(
+		Contexts.RealTimeContext
+	);
+	const { isSummarize, dispatch_summarize } = useContext(
+		Contexts.SummarizeContext
+	);
+	const { isNoReception, dispatch_noReception } = useContext(
+		Contexts.NoReceptionContext
+	);
+	const { isMultiEvent, dispatch_multiEvent } = useContext(
+		Contexts.MultiEventContext
+	);
+	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 
-	const [isMultiple, setIsMultiple] = useState(false);
+	// const [isMultiple, setIsMultiple] = useState(false);
 	console.log('re rendering');
 
 	return (
@@ -23,19 +36,19 @@ const Schedule = () => {
 						<FormControlLabel
 							control={
 								<Checkbox
-									checked={multipleEvent.isMultiple}
-									disabled={summarize.isSummarize}
+									checked={isMultiEvent}
+									disabled={isSummarize}
 									onChange={(e) => {
 										// setIsMultiple(e.target.checked);
-										multipleEvent.setIsMultiple(
-											e.target.checked
+										dispatch_multiEvent(
+											e.target.checked ? 'TRUE' : 'FALSE'
 										);
 									}}
 								/>
 							}
 							label="複数部制で開催"
 						/>
-						{summarize.isSummarize ? (
+						{isSummarize ? (
 							<strong className="c-alert">
 								まとめて予約選択中は、複数部制を設定できません。
 							</strong>
@@ -55,7 +68,7 @@ const Schedule = () => {
 								/>
 							</div>
 							<ol className="scheduleWrap__contents">
-								{fair.fairContents.map((item, i) => {
+								{fairContents.map((item, i) => {
 									const id = nanoid();
 									return !item.category ? ( // カテゴリ選択前は非表示
 										false
