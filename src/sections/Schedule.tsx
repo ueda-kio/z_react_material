@@ -68,16 +68,15 @@ const Schedule = () => {
 								/>
 							</div>
 							<ol className="scheduleWrap__contents">
-								{fairContents.map((item, i) => {
-									const id = nanoid();
+								{fairContents.map((item) => {
 									return !item.category ? ( // カテゴリ選択前は非表示
 										false
 									) : (
 										<li
-											key={id}
+											key={item.id}
 											className="scheduleWrap__contents__item"
 										>
-											<span>{id}</span>
+											<span>{item.id}</span>
 											<ScheduleContent
 												category={item.category}
 											/>
