@@ -1,7 +1,8 @@
 import { TextField } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
-import { ContextWrapper } from '../ContextWrapper';
+import { ContextWrapper } from '../../ContextWrapper';
+import * as Contexts from '../../context/contexts';
 
 type Props = {
 	category: string;
@@ -9,7 +10,21 @@ type Props = {
 
 const ScheduleContent: React.FC<Props> = ({ category }) => {
 	const categories = ['カテゴリ01', 'カテゴリ02', 'カテゴリ03'];
-	const { summarize, noReception, fair } = useContext(ContextWrapper);
+
+	const { isRealTime, dispatch_realTime } = useContext(
+		Contexts.RealTimeContext
+	);
+	const { isSummarize, dispatch_summarize } = useContext(
+		Contexts.SummarizeContext
+	);
+	const { isNoReception, dispatch_noReception } = useContext(
+		Contexts.NoReceptionContext
+	);
+	const { isMultiEvent, dispatch_multiEvent } = useContext(
+		Contexts.MultiEventContext
+	);
+	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
+
 	const [cassette, setCassette] = useState([{ id: nanoid() }]);
 
 	/**
@@ -52,7 +67,7 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 									削除
 								</button>
 							</div>
-							{summarize.isSummarize ? (
+							{isSummarize ? (
 								<strong className="c-alert">
 									まとめて予約設定中のため、種別を変更することはできません。
 								</strong>

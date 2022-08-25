@@ -1,13 +1,24 @@
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react';
-import { nanoid } from 'nanoid';
-import { ContextWrapper } from '../ContextWrapper';
-import { ScheduleContent } from '../template';
+import { ScheduleWrapper } from '../template';
+import * as Contexts from '../context/contexts';
 
 const Schedule = () => {
-	const { summarize, multipleEvent, fair } = useContext(ContextWrapper);
+	const { isRealTime, dispatch_realTime } = useContext(
+		Contexts.RealTimeContext
+	);
+	const { isSummarize, dispatch_summarize } = useContext(
+		Contexts.SummarizeContext
+	);
+	const { isNoReception, dispatch_noReception } = useContext(
+		Contexts.NoReceptionContext
+	);
+	const { isMultiEvent, dispatch_multiEvent } = useContext(
+		Contexts.MultiEventContext
+	);
+	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 
-	const [isMultiple, setIsMultiple] = useState(false);
+	// const [isMultiple, setIsMultiple] = useState(false);
 	console.log('re rendering');
 
 	return (
@@ -23,19 +34,19 @@ const Schedule = () => {
 						<FormControlLabel
 							control={
 								<Checkbox
-									checked={multipleEvent.isMultiple}
-									disabled={summarize.isSummarize}
+									checked={isMultiEvent}
+									disabled={isSummarize}
 									onChange={(e) => {
 										// setIsMultiple(e.target.checked);
-										multipleEvent.setIsMultiple(
-											e.target.checked
+										dispatch_multiEvent(
+											e.target.checked ? 'TRUE' : 'FALSE'
 										);
 									}}
 								/>
 							}
 							label="複数部制で開催"
 						/>
-						{summarize.isSummarize ? (
+						{isSummarize ? (
 							<strong className="c-alert">
 								まとめて予約選択中は、複数部制を設定できません。
 							</strong>
@@ -47,31 +58,7 @@ const Schedule = () => {
 				<div className="section__item">
 					<dt className="section__item__head">開催時間</dt>
 					<dd className="section__item__content">
-						<div className="scheduleWrap">
-							<div className="scheduleWrap__timeInput">
-								<TextField
-									label="開始時間"
-									variant="outlined"
-								/>
-							</div>
-							<ol className="scheduleWrap__contents">
-								{fair.fairContents.map((item) => {
-									return !item.category ? ( // カテゴリ選択前は非表示
-										false
-									) : (
-										<li
-											key={item.id}
-											className="scheduleWrap__contents__item"
-										>
-											<span>{item.id}</span>
-											<ScheduleContent
-												category={item.category}
-											/>
-										</li>
-									);
-								})}
-							</ol>
-						</div>
+						<ScheduleWrapper />
 					</dd>
 				</div>
 			</dl>

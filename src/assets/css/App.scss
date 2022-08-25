@@ -216,7 +216,11 @@ body {
 	}
 	&__contents__item+&__contents__item {
 		margin-top: 24px;
-		padding-top: 24px;
-		border-top: 1px solid $border;
 	}
+}
+.scheduleWrap+.scheduleWrap {
+	margin-top: 32px;
+	padding-top: 32px;
+	border-top: 1px solid $border;
+
 }

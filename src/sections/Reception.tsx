@@ -3,13 +3,27 @@ import React, { useContext, useState } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
-import { ContextWrapper } from '../ContextWrapper';
 import { Checkbox } from '@mui/material';
 
+import * as Contexts from '../context/contexts';
+
 const Reception = () => {
-	const { realTime, summarize, noReception, multipleEvent } =
-		useContext(ContextWrapper);
+	const { isRealTime, dispatch_realTime } = useContext(
+		Contexts.RealTimeContext
+	);
+	const { isSummarize, dispatch_summarize } = useContext(
+		Contexts.SummarizeContext
+	);
+	const { isNoReception, dispatch_noReception } = useContext(
+		Contexts.NoReceptionContext
+	);
+	const { isMultiEvent, dispatch_multiEvent } = useContext(
+		Contexts.MultiEventContext
+	);
+	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
+
+	// const {    } =
+	// 	useContext(ContextWrapper);
 	const [reception, setReception] = useState('');
 	const [receptionLimitByNet, setReceptionLimitByNet] = useState('');
 	const [receptionLimitByTel, setReceptionLimitByTel] = useState('');
@@ -20,14 +34,14 @@ const Reception = () => {
 	const handleChangeCategory = (e: { target: { value: string } }) => {
 		const value = e.target.value;
 		setReception(value);
-		noReception.setIsNoReception(value === '03' ? true : false);
+		dispatch_noReception(value === '03' ? 'TRUE' : 'FALSE');
 
 		if (value !== '01') {
-			realTime.setIsRealTime(false);
-			summarize.setIsSummarize(false);
+			dispatch_realTime('FALSE');
+			dispatch_summarize('FALSE');
 		} else {
-			realTime.setIsRealTime(localRealTime);
-			summarize.setIsSummarize(localSummarize);
+			dispatch_realTime(localRealTime ? 'TRUE' : 'FALSE');
+			dispatch_summarize(localSummarize ? 'TRUE' : 'FALSE');
 		}
 	};
 
@@ -44,9 +58,7 @@ const Reception = () => {
 							<RadioGroup
 								aria-labelledby="demo-radio-buttons-group-label"
 								name="reception"
-								value={
-									noReception.isNoReception ? '03' : reception
-								}
+								value={isNoReception ? '03' : reception}
 								onChange={(e) => handleChangeCategory(e)}
 							>
 								<FormControlLabel
@@ -77,9 +89,11 @@ const Reception = () => {
 																localRealTime
 															}
 															onChange={(e) => {
-																realTime.setIsRealTime(
+																dispatch_realTime(
 																	e.target
 																		.checked
+																		? 'TRUE'
+																		: 'FALSE'
 																);
 																setLocalRealTime(
 																	e.target
@@ -104,12 +118,14 @@ const Reception = () => {
 																localSummarize
 															}
 															disabled={
-																multipleEvent.isMultiple
+																isMultiEvent
 															}
 															onChange={(e) => {
-																summarize.setIsSummarize(
+																dispatch_summarize(
 																	e.target
 																		.checked
+																		? 'TRUE'
+																		: 'FALSE'
 																);
 																setLocalSummarize(
 																	e.target
@@ -120,7 +136,7 @@ const Reception = () => {
 													}
 													label="まとめて予約"
 												/>
-												{multipleEvent.isMultiple ? (
+												{isMultiEvent ? (
 													<strong className="c-alert">
 														複数部制設定時は、まとめて予約を選択できません。
 													</strong>
