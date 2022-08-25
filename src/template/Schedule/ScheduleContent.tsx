@@ -1,8 +1,8 @@
 import { TextField } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
-import { ContextWrapper } from '../ContextWrapper';
-import * as Contexts from '../context/contexts';
+import { ContextWrapper } from '../../ContextWrapper';
+import * as Contexts from '../../context/contexts';
 
 type Props = {
 	category: string;

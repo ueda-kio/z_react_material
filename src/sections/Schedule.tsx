@@ -1,8 +1,6 @@
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react';
-import { nanoid } from 'nanoid';
-import { ContextWrapper } from '../ContextWrapper';
-import { ScheduleContent } from '../template';
+import { ScheduleWrapper } from '../template';
 import * as Contexts from '../context/contexts';
 
 const Schedule = () => {
@@ -60,31 +58,7 @@ const Schedule = () => {
 				<div className="section__item">
 					<dt className="section__item__head">開催時間</dt>
 					<dd className="section__item__content">
-						<div className="scheduleWrap">
-							<div className="scheduleWrap__timeInput">
-								<TextField
-									label="開始時間"
-									variant="outlined"
-								/>
-							</div>
-							<ol className="scheduleWrap__contents">
-								{fairContents.map((item) => {
-									return !item.category ? ( // カテゴリ選択前は非表示
-										false
-									) : (
-										<li
-											key={item.id}
-											className="scheduleWrap__contents__item"
-										>
-											<span>{item.id}</span>
-											<ScheduleContent
-												category={item.category}
-											/>
-										</li>
-									);
-								})}
-							</ol>
-						</div>
+						<ScheduleWrapper />
 					</dd>
 				</div>
 			</dl>
