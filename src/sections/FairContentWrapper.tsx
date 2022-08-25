@@ -1,9 +1,15 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { nanoid } from 'nanoid';
 import { ContextWrapper } from '../ContextWrapper';
 import { Button } from '@mui/material';
 import { FairContent } from '../template/';
-import * as Contexts from '../context/contexts';
+import {
+	RealTimeContext,
+	SummarizeContext,
+	NoReceptionContext,
+	MultiEventContext,
+	FairContext,
+} from '../context/contexts';
 
 const FairContentWrapper = () => {
 	const { isRealTime, dispatch_realTime } = useContext(

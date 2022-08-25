@@ -9,28 +9,27 @@ import {
 	TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ContextWrapper } from '../ContextWrapper';
-import * as Contexts from '../context/contexts';
+import {
+	RealTimeContext,
+	SummarizeContext,
+	NoReceptionContext,
+	MultiEventContext,
+	FairContext,
+} from '../context/contexts';
 
 type Props = {
 	index: number;
 };
 
 const FairContent: React.FC<Props> = ({ index }) => {
-	const { isRealTime, dispatch_realTime } = useContext(
-		Contexts.RealTimeContext
-	);
-	const { isSummarize, dispatch_summarize } = useContext(
-		Contexts.SummarizeContext
-	);
-	const { isNoReception, dispatch_noReception } = useContext(
-		Contexts.NoReceptionContext
-	);
-	const { isMultiEvent, dispatch_multiEvent } = useContext(
-		Contexts.MultiEventContext
-	);
-	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
+	const { isRealTime, dispatch_realTime } = useContext(RealTimeContext);
+	const { isSummarize, dispatch_summarize } = useContext(SummarizeContext);
+	const { isNoReception, dispatch_noReception } =
+		useContext(NoReceptionContext);
+	const { isMultiEvent, dispatch_multiEvent } = useContext(MultiEventContext);
+	const { fairContents, dispatch_fair } = useContext(FairContext);
 
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
 	const [categoryValue, setCategoryValue] = useState('');

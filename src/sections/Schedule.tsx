@@ -1,22 +1,21 @@
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { ScheduleWrapper } from '../template';
-import * as Contexts from '../context/contexts';
+import {
+	RealTimeContext,
+	SummarizeContext,
+	NoReceptionContext,
+	MultiEventContext,
+	FairContext,
+} from '../context/contexts';
 
 const Schedule = () => {
-	const { isRealTime, dispatch_realTime } = useContext(
-		Contexts.RealTimeContext
-	);
-	const { isSummarize, dispatch_summarize } = useContext(
-		Contexts.SummarizeContext
-	);
-	const { isNoReception, dispatch_noReception } = useContext(
-		Contexts.NoReceptionContext
-	);
-	const { isMultiEvent, dispatch_multiEvent } = useContext(
-		Contexts.MultiEventContext
-	);
-	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
+	const { isRealTime, dispatch_realTime } = useContext(RealTimeContext);
+	const { isSummarize, dispatch_summarize } = useContext(SummarizeContext);
+	const { isNoReception, dispatch_noReception } =
+		useContext(NoReceptionContext);
+	const { isMultiEvent, dispatch_multiEvent } = useContext(MultiEventContext);
+	const { fairContents, dispatch_fair } = useContext(FairContext);
 
 	// const [isMultiple, setIsMultiple] = useState(false);
 	console.log('re rendering');

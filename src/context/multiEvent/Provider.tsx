@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import React, { useReducer } from 'react';
 import MultiEventContext from './context';
 import { multiEventReducer } from './reducer';
 

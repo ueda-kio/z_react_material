@@ -1,26 +1,23 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 
-import * as Contexts from '../context/contexts';
+import {
+	RealTimeContext,
+	SummarizeContext,
+	NoReceptionContext,
+	MultiEventContext,
+} from '../context/contexts';
 
 const Reception = () => {
-	const { isRealTime, dispatch_realTime } = useContext(
-		Contexts.RealTimeContext
-	);
-	const { isSummarize, dispatch_summarize } = useContext(
-		Contexts.SummarizeContext
-	);
-	const { isNoReception, dispatch_noReception } = useContext(
-		Contexts.NoReceptionContext
-	);
-	const { isMultiEvent, dispatch_multiEvent } = useContext(
-		Contexts.MultiEventContext
-	);
-	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
+	const { dispatch_realTime } = useContext(RealTimeContext);
+	const { dispatch_summarize } = useContext(SummarizeContext);
+	const { isNoReception, dispatch_noReception } =
+		useContext(NoReceptionContext);
+	const { isMultiEvent } = useContext(MultiEventContext);
 
 	// const {    } =
 	// 	useContext(ContextWrapper);

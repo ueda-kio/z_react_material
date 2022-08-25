@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import React, { useReducer } from 'react';
 import SummarizeContext from './context';
 import { summarizeReducer } from './reducer';
 

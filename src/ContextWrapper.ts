@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
+import React, { createContext, Dispatch, SetStateAction } from 'react';
 
 export type FairContents = {
 	id: string;

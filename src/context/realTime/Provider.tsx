@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import React, { useReducer } from 'react';
 import RealTimeContext from './context';
 import { realTimeReducer } from './reducer';
 
