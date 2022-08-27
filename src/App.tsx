@@ -1,5 +1,3 @@
-import './assets/css/reset.css';
-import './assets/css/App.scss';
 import GlobalStyle from './style/GlobalStyle';
 import {
 	BasicInfo,
@@ -7,13 +5,20 @@ import {
 	FairContentWrapper,
 	Schedule,
 } from './sections/';
+import { css } from '@emotion/react';
 import * as Provider from './context/providers';
+
+const style = css`
+	display: grid;
+	gap: 16px;
+	width: 1000px;
+`;
 
 const App: React.FC = () => {
 	console.log('App');
 
 	return (
-		<form className="form">
+		<form css={style}>
 			<GlobalStyle />
 			<Provider.RealTimeProvider>
 				<Provider.SummarizeProvider>

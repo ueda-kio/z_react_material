@@ -59,7 +59,7 @@ const baseStyle = css`
 		font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Arial,
 			sans-serif;
 		font-size: 1rem;
-		/* letter-spacing: 0.12rem; */
+		background-color: #f6f6f6;
 	}
 `;
 
