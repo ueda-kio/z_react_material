@@ -1,15 +1,32 @@
 import React, { useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { TextField } from '@mui/material';
+import { css } from '@emotion/react';
 import * as Contexts from '../../context/contexts';
 import ScheduleContent from './ScheduleContent';
+import utils from '../../style/Utils';
+
+const style = {
+	wrapper: css`
+		& + & {
+			margin-top: 32px;
+			padding-top: 32px;
+			border-top: ${utils.border};
+		}
+	`,
+	contents: css`
+		margin-top: 32px;
+	`,
+	contentsItem: css`
+		& + & {
+			margin-top: 24px;
+		}
+	`,
+};
 
 const ScheduleWrapper = () => {
-	const { isMultiEvent, dispatch_multiEvent } = useContext(
-		Contexts.MultiEventContext
-	);
-	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
-
+	const { isMultiEvent } = useContext(Contexts.MultiEventContext);
+	const { fairContents } = useContext(Contexts.FairContext);
 	const [times, setTimes] = useState([] as { id: string }[]);
 
 	const handleClickAddTime = () => {
@@ -21,21 +38,17 @@ const ScheduleWrapper = () => {
 
 	return (
 		<>
-			<div className="scheduleWrap">
+			<div css={style.wrapper}>
 				<div className="scheduleWrap__timeInput">
 					{isMultiEvent ? <span>第1部</span> : false}
 					<TextField label="開始時間" variant="outlined" />
 				</div>
-				<ol className="scheduleWrap__contents">
+				<ol css={style.contents}>
 					{fairContents.map((item) => {
 						return !item.category ? ( // カテゴリ選択前は非表示
 							false
 						) : (
-							<li
-								key={item.id}
-								className="scheduleWrap__contents__item"
-							>
-								<span>{item.id}</span>
+							<li key={item.id} css={style.contentsItem}>
 								<ScheduleContent category={item.category} />
 							</li>
 						);
@@ -44,20 +57,17 @@ const ScheduleWrapper = () => {
 			</div>
 			{isMultiEvent ? (
 				<>
-					<div className="scheduleWrap">
+					<div css={style.wrapper}>
 						<div className="scheduleWrap__timeInput">
 							{isMultiEvent ? <span>第2部</span> : false}
 							<TextField label="開始時間" variant="outlined" />
 						</div>
-						<ol className="scheduleWrap__contents">
+						<ol css={style.contents}>
 							{fairContents.map((item) => {
 								return !item.category ? ( // カテゴリ選択前は非表示
 									false
 								) : (
-									<li
-										key={item.id}
-										className="scheduleWrap__contents__item"
-									>
+									<li key={item.id} css={style.contentsItem}>
 										<span>{item.id}</span>
 										<ScheduleContent
 											category={item.category}
@@ -68,7 +78,7 @@ const ScheduleWrapper = () => {
 						</ol>
 					</div>
 					{times.map((time, i) => (
-						<div className="scheduleWrap" key={time.id}>
+						<div css={style.wrapper} key={time.id}>
 							<div className="scheduleWrap__timeInput">
 								{isMultiEvent ? (
 									<span>第{i + 3}部</span>
@@ -88,14 +98,14 @@ const ScheduleWrapper = () => {
 									第{i + 3}部を削除
 								</button>
 							</div>
-							<ol className="scheduleWrap__contents">
+							<ol css={style.contents}>
 								{fairContents.map((item) => {
 									return !item.category ? ( // カテゴリ選択前は非表示
 										false
 									) : (
 										<li
 											key={item.id}
-											className="scheduleWrap__contents__item"
+											css={style.contentsItem}
 										>
 											<span>{item.id}</span>
 											<ScheduleContent

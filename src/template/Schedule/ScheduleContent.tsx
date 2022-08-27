@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
-import { ContextWrapper } from '../../ContextWrapper';
+import { css } from '@emotion/react';
 import * as Contexts from '../../context/contexts';
 import AlertMessage from '../../components/utils/AlertMessage';
 
@@ -9,24 +9,35 @@ type Props = {
 	category: string;
 };
 
+const style = {
+	wrapper: css`
+		padding: 32px;
+		background-color: #fff;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 4px;
+		border-radius: 16px;
+
+		& + & {
+			margin-top: 16px;
+		}
+	`,
+	head: css`
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 8px;
+	`,
+	body: css`
+		margin-top: 12px;
+	`,
+	title: css`
+		font-weight: bold;
+	`,
+};
+
 const ScheduleContent: React.FC<Props> = ({ category }) => {
-	const categories = ['カテゴリ01', 'カテゴリ02', 'カテゴリ03'];
-
-	const { isRealTime, dispatch_realTime } = useContext(
-		Contexts.RealTimeContext
-	);
-	const { isSummarize, dispatch_summarize } = useContext(
-		Contexts.SummarizeContext
-	);
-	const { isNoReception, dispatch_noReception } = useContext(
-		Contexts.NoReceptionContext
-	);
-	const { isMultiEvent, dispatch_multiEvent } = useContext(
-		Contexts.MultiEventContext
-	);
-	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
-
+	const { isSummarize } = useContext(Contexts.SummarizeContext);
 	const [cassette, setCassette] = useState([{ id: nanoid() }]);
+	const categories = ['相談会', '模擬挙式', '模擬披露宴', '試食会', '試着会'];
 
 	/**
 	 * 「削除」ボタンからコンテンツを削除する
@@ -51,9 +62,9 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 					<AlertMessage text="開催時間を１つ以上選択してください。" />
 				) : (
 					cassette.map((item) => (
-						<div className="scheduleContent" key={item.id}>
-							<div className="scheduleContent__head">
-								<div className="scheduleContent__head__inputWrapper">
+						<div css={style.wrapper} key={item.id}>
+							<div css={style.head}>
+								<div>
 									<TextField
 										label="開始時間"
 										variant="outlined"
@@ -71,10 +82,8 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 							) : (
 								false
 							)}
-							<div className="scheduleContent__body">
-								<p className="scheduleContent__title">
-									タイトル
-								</p>
+							<div css={style.body}>
+								<p css={style.title}>タイトル</p>
 								<TextField hiddenLabel fullWidth />
 							</div>
 						</div>

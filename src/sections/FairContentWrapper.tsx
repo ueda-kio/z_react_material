@@ -1,23 +1,21 @@
 import { useContext } from 'react';
-import { nanoid } from 'nanoid';
-import { ContextWrapper } from '../ContextWrapper';
+import { css } from '@emotion/react';
 import { Button } from '@mui/material';
 import { FairContent } from '../template/';
 import * as Contexts from '../context/contexts';
+import Section from '../components/Section';
+import SectionItem from '../components/SectionItem';
+import utils from '../style/Utils';
+
+const style = css`
+	& + & {
+		margin-top: 32px;
+		padding-top: 32px;
+		border-top: ${utils.border};
+	}
+`;
 
 const FairContentWrapper = () => {
-	const { isRealTime, dispatch_realTime } = useContext(
-		Contexts.RealTimeContext
-	);
-	const { isSummarize, dispatch_summarize } = useContext(
-		Contexts.SummarizeContext
-	);
-	const { isNoReception, dispatch_noReception } = useContext(
-		Contexts.NoReceptionContext
-	);
-	const { isMultiEvent, dispatch_multiEvent } = useContext(
-		Contexts.MultiEventContext
-	);
 	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 
 	const handle = () => {
@@ -27,27 +25,18 @@ const FairContentWrapper = () => {
 	};
 
 	return (
-		<section className="section">
-			<header className="section__header">
-				<h2 className="section__title">フェア内容</h2>
-			</header>
-
-			<dl className="section__body">
-				<div className="section__item">
-					<dt className="section__item__head">フェアコンテンツ</dt>
-					<dd className="section__item__content">
-						{fairContents.map((content, i) => (
-							<div className="section__contents" key={content.id}>
-								<FairContent index={i} />
-							</div>
-						))}
-						<Button variant="outlined" onClick={handle}>
-							フェアコンテンツの追加
-						</Button>
-					</dd>
-				</div>
-			</dl>
-		</section>
+		<Section title="フェア内容">
+			<SectionItem title="フェアコンテンツ">
+				{fairContents.map((content, i) => (
+					<div css={style} key={content.id}>
+						<FairContent index={i} />
+					</div>
+				))}
+				<Button variant="outlined" onClick={handle}>
+					フェアコンテンツの追加
+				</Button>
+			</SectionItem>
+		</Section>
 	);
 };
 

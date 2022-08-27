@@ -50,58 +50,6 @@ body {
 	width: 1000px;
 }
 
-.section {
-	$parent: &;
-	background-color: #fff;
-	box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 4px;
-	border-radius: 16px;
-
-	&__header {
-		display: flex;
-		justify-content: start;
-		align-items: center;
-		height: 107px;
-		padding: 0 40px;
-		border-bottom: 1px solid $border;
-	}
-
-	&__title {
-		font-size: 22px;
-		font-weight: bold;
-	}
-
-	&__body {
-		padding: 0px 40px 8px;
-	}
-
-	&__item {
-		display: grid;
-		align-items: start;
-		grid-template-columns: 160px 1fr;
-		gap: 26px;
-		padding: 32px 0;
-
-		&__head {
-			font-size: 16px;
-			font-weight: bold;
-		}
-
-		&__content {
-
-		}
-	}
-
-	&__item+&__item {
-		border-top: 1px solid $border;
-	}
-
-	&__contents+&__contents {
-		margin-top: 32px;
-		padding-top: 32px;
-		border-top: 1px solid $border;
-	}
-}
-
 .c-cassette {
 	$parent: &;
 	background-color: #fff;
@@ -176,41 +124,4 @@ body {
 	&__contents+&__contents {
 		border-top: 1px solid $border;
 	}
-}
-
-.scheduleContent {
-	padding: 32px;
-	background-color: #fff;
-	box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 4px;
-	border-radius: 16px;
-
-	&__head {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 8px;
-	}
-
-	&__body {
-		margin-top: 12px;
-	}
-
-	&__title {
-		font-weight: bold;
-	}
-}
-
-.scheduleWrap {
-	&__contents {
-		margin-top: 32px;
-	}
-	&__contents__item+&__contents__item {
-		margin-top: 24px;
-	}
-}
-.scheduleWrap+.scheduleWrap {
-	margin-top: 32px;
-	padding-top: 32px;
-	border-top: 1px solid $border;
-
 }

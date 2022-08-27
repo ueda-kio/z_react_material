@@ -98,9 +98,11 @@ const FairContent: React.FC<Props> = ({ index }) => {
 								setCategoryNameToState(e);
 							}}
 						>
-							<MenuItem value="01">カテゴリ01</MenuItem>
-							<MenuItem value="02">カテゴリ02</MenuItem>
-							<MenuItem value="03">カテゴリ03</MenuItem>
+							<MenuItem value="01">相談会</MenuItem>
+							<MenuItem value="02">模擬挙式</MenuItem>
+							<MenuItem value="03">模擬披露宴</MenuItem>
+							<MenuItem value="04">試食会</MenuItem>
+							<MenuItem value="05">試着会</MenuItem>
 						</Select>
 					</FormControl>
 				</Box>
