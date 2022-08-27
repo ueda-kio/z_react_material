@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { css } from '@emotion/react';
 import * as Contexts from '../../context/contexts';
 import AlertMessage from '../../components/utils/AlertMessage';
+import * as Cassette from '../../components/Cassette';
 
 type Props = {
 	category: string;
@@ -52,50 +53,44 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 	};
 
 	return (
-		<div className="c-cassette">
-			<div className="c-cassette__header">
-				{categories[Number(category) - 1]}
-			</div>
-
-			<div className="c-cassette__body">
-				{!cassette.length ? (
-					<AlertMessage text="開催時間を１つ以上選択してください。" />
-				) : (
-					cassette.map((item) => (
-						<div css={style.wrapper} key={item.id}>
-							<div css={style.head}>
-								<div>
-									<TextField
-										label="開始時間"
-										variant="outlined"
-									/>
-								</div>
-								<button
-									type="button"
-									onClick={() => deleteSelf(item.id)}
-								>
-									削除
-								</button>
+		<Cassette.Cassette title={categories[Number(category) - 1]}>
+			{!cassette.length ? (
+				<AlertMessage text="開催時間を１つ以上選択してください。" />
+			) : (
+				cassette.map((item) => (
+					<div css={style.wrapper} key={item.id}>
+						<div css={style.head}>
+							<div>
+								<TextField
+									label="開始時間"
+									variant="outlined"
+								/>
 							</div>
-							{isSummarize ? (
-								<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
-							) : (
-								false
-							)}
-							<div css={style.body}>
-								<p css={style.title}>タイトル</p>
-								<TextField hiddenLabel fullWidth />
-							</div>
+							<button
+								type="button"
+								onClick={() => deleteSelf(item.id)}
+							>
+								削除
+							</button>
 						</div>
-					))
-				)}
-				<p>
-					<button type="button" onClick={addScheduleContent}>
-						開催時間を追加
-					</button>
-				</p>
-			</div>
-		</div>
+						{isSummarize ? (
+							<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
+						) : (
+							false
+						)}
+						<div css={style.body}>
+							<p css={style.title}>タイトル</p>
+							<TextField hiddenLabel fullWidth />
+						</div>
+					</div>
+				))
+			)}
+			<p>
+				<button type="button" onClick={addScheduleContent}>
+					開催時間を追加
+				</button>
+			</p>
+		</Cassette.Cassette>
 	);
 };
 

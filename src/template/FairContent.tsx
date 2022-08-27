@@ -8,11 +8,22 @@ import {
 	Select,
 	TextField,
 } from '@mui/material';
+import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
 import { ContextWrapper } from '../ContextWrapper';
 import * as Contexts from '../context/contexts';
+import * as Cassette from '../components/Cassette';
 import AlertMessage from '../components/utils/AlertMessage';
+import utils from '../style/Utils';
+
+const style = {
+	contents: css`
+		& + & {
+			margin-top: ${utils.border};
+		}
+	`,
+};
 
 type Props = {
 	index: number;
@@ -81,165 +92,139 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	}, [fairContents]);
 
 	return (
-		<div className="c-cassette">
-			<div className="c-cassette__header">
-				<Box sx={{ minWidth: 300 }}>
-					<FormControl fullWidth>
-						<InputLabel id="demo-simple-select-label">
-							カテゴリー
-						</InputLabel>
-						<Select
-							labelId="demo-simple-select-label"
-							id="demo-simple-select"
-							label="カテゴリー"
-							value={categoryValue}
-							onChange={(e) => {
-								handleChangeCategory(e);
-								setCategoryNameToState(e);
-							}}
-						>
-							<MenuItem value="01">相談会</MenuItem>
-							<MenuItem value="02">模擬挙式</MenuItem>
-							<MenuItem value="03">模擬披露宴</MenuItem>
-							<MenuItem value="04">試食会</MenuItem>
-							<MenuItem value="05">試着会</MenuItem>
-						</Select>
-					</FormControl>
-				</Box>
-				<button type="button" onClick={deleteSelf}>
-					削除
-				</button>
-			</div>
-			<div className="c-cassette__body">
-				<dl className="c-cassette__dl">
-					<div className="c-cassette__dl__item">
-						<dt className="c-cassette__dl__head">予約種別</dt>
-						<dd className="c-cassette__dl__content">
-							<RadioGroup
-								row
-								aria-labelledby="demo-radio-buttons-group-label"
-								name="reception_02"
-								value={
-									isNoReception ? '03' : receptionTypeValue
-								}
+		<Cassette.Cassette
+			title={
+				<>
+					<Box sx={{ minWidth: 300 }}>
+						<FormControl fullWidth>
+							<InputLabel id="demo-simple-select-label">
+								カテゴリー
+							</InputLabel>
+							<Select
+								labelId="demo-simple-select-label"
+								id="demo-simple-select"
+								label="カテゴリー"
+								value={categoryValue}
 								onChange={(e) => {
-									setReceptionTypeValue(e.target.value);
-									dispatch_noReception(
-										e.target.value === '03'
-											? 'TRUE'
-											: 'FALSE'
-									);
+									handleChangeCategory(e);
+									setCategoryNameToState(e);
 								}}
 							>
-								<FormControlLabel
-									control={<Radio />}
-									value="01"
-									disabled={isSummarize || isNoReception}
-									label="要予約"
-								/>
-								<FormControlLabel
-									control={<Radio />}
-									value="02"
-									disabled={isSummarize || isNoReception}
-									label="予約優先"
-								/>
-								<FormControlLabel
-									control={<Radio />}
-									value="03"
-									disabled={isSummarize || isNoReception}
-									label="予約不要"
-								/>
-							</RadioGroup>
-							{isSummarize ? (
-								<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
-							) : (
-								false
-							)}
-							{isNoReception ? (
-								<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
-							) : (
-								false
-							)}
-						</dd>
-					</div>
-					<div className="c-cassette__dl__item">
-						<dt className="c-cassette__dl__head">受付単位</dt>
-						<dd className="c-cassette__dl__content">
-							<RadioGroup row onChange={setUnitToState}>
-								<FormControlLabel
-									control={<Radio />}
-									value="01"
-									disabled={isSummarize || isNoReception}
-									label="名"
-								/>
-								<FormControlLabel
-									control={<Radio />}
-									value="02"
-									disabled={isSummarize || isNoReception}
-									label="組"
-								/>
-							</RadioGroup>
-							{isSummarize ? (
-								<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
-							) : (
-								false
-							)}
-							{isNoReception ? (
-								<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
-							) : (
-								false
-							)}
-						</dd>
-					</div>
-					<div className="c-cassette__dl__item">
-						<dt className="c-cassette__dl__head">料金</dt>
-						<dd className="c-cassette__dl__content">
-							<RadioGroup row name="price">
-								<FormControlLabel
-									control={<Radio />}
-									value="01"
-									label="無料"
-								/>
-								<FormControlLabel
-									control={<Radio />}
-									value="02"
-									label="有料"
-								/>
-							</RadioGroup>
-						</dd>
-					</div>
-				</dl>
-				<div className="c-cassette">
-					<div className="c-cassette__header">header</div>
-					<div className="c-cassette__body">
-						<div className="c-cassette__contents">
-							<TextField
-								hiddenLabel
-								fullWidth
-								multiline
-								rows={3}
-								placeholder="詳細"
-								name="fair_description"
-							/>
-							{/* <div className="textCount">
-												<span className="textCount__limit">
-													100文字以内
-												</span>
-												<div className="textCount__counter">
-													<span className="textCount__count">
-														0
-													</span>
-													<span className="textCount__mother">
-														100
-													</span>
-												</div>
-											</div> */}
-						</div>
-						<div className="c-cassette__contents">画像</div>
-					</div>
+								<MenuItem value="01">相談会</MenuItem>
+								<MenuItem value="02">模擬挙式</MenuItem>
+								<MenuItem value="03">模擬披露宴</MenuItem>
+								<MenuItem value="04">試食会</MenuItem>
+								<MenuItem value="05">試着会</MenuItem>
+							</Select>
+						</FormControl>
+					</Box>
+					<button type="button" onClick={deleteSelf}>
+						削除
+					</button>
+				</>
+			}
+		>
+			<Cassette.CassetteList title="予約種別">
+				<>
+					<RadioGroup
+						row
+						aria-labelledby="demo-radio-buttons-group-label"
+						name="reception_02"
+						value={isNoReception ? '03' : receptionTypeValue}
+						onChange={(e) => {
+							setReceptionTypeValue(e.target.value);
+							dispatch_noReception(
+								e.target.value === '03' ? 'TRUE' : 'FALSE'
+							);
+						}}
+					>
+						<FormControlLabel
+							control={<Radio />}
+							value="01"
+							disabled={isSummarize || isNoReception}
+							label="要予約"
+						/>
+						<FormControlLabel
+							control={<Radio />}
+							value="02"
+							disabled={isSummarize || isNoReception}
+							label="予約優先"
+						/>
+						<FormControlLabel
+							control={<Radio />}
+							value="03"
+							disabled={isSummarize || isNoReception}
+							label="予約不要"
+						/>
+					</RadioGroup>
+					{isSummarize ? (
+						<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
+					) : (
+						false
+					)}
+					{isNoReception ? (
+						<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
+					) : (
+						false
+					)}
+				</>
+			</Cassette.CassetteList>
+			<Cassette.CassetteList title="受付単位">
+				<>
+					<RadioGroup row onChange={setUnitToState}>
+						<FormControlLabel
+							control={<Radio />}
+							value="01"
+							disabled={isSummarize || isNoReception}
+							label="名"
+						/>
+						<FormControlLabel
+							control={<Radio />}
+							value="02"
+							disabled={isSummarize || isNoReception}
+							label="組"
+						/>
+					</RadioGroup>
+					{isSummarize ? (
+						<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
+					) : (
+						false
+					)}
+					{isNoReception ? (
+						<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
+					) : (
+						false
+					)}
+				</>
+			</Cassette.CassetteList>
+			<Cassette.CassetteList title="料金">
+				<RadioGroup row name="price">
+					<FormControlLabel
+						control={<Radio />}
+						value="01"
+						label="無料"
+					/>
+					<FormControlLabel
+						control={<Radio />}
+						value="02"
+						label="有料"
+					/>
+				</RadioGroup>
+			</Cassette.CassetteList>
+			<Cassette.Cassette title="詳細情報">
+				<div css={style.contents}>
+					<TextField
+						hiddenLabel
+						fullWidth
+						multiline
+						rows={3}
+						placeholder="詳細"
+						name="fair_description"
+					/>
 				</div>
-			</div>
-		</div>
+				<div css={style.contents}>画像</div>
+			</Cassette.Cassette>
+		</Cassette.Cassette>
 	);
 };
 
