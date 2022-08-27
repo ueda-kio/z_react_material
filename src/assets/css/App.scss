@@ -178,16 +178,6 @@ body {
 	}
 }
 
-.c-alert {
-	display: block;
-	color: red;
-	font-size: 0.8rem;
-
-	& + .c-alert {
-		margin-top: 4px;
-	}
-}
-
 .scheduleContent {
 	padding: 32px;
 	background-color: #fff;

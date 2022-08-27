@@ -12,6 +12,7 @@ import { Box } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
 import { ContextWrapper } from '../ContextWrapper';
 import * as Contexts from '../context/contexts';
+import AlertMessage from '../components/utils/AlertMessage';
 
 type Props = {
 	index: number;
@@ -148,16 +149,12 @@ const FairContent: React.FC<Props> = ({ index }) => {
 								/>
 							</RadioGroup>
 							{isSummarize ? (
-								<strong className="c-alert">
-									まとめて予約設定中のため、種別を変更することはできません。
-								</strong>
+								<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
 							) : (
 								false
 							)}
 							{isNoReception ? (
-								<strong className="c-alert">
-									予約不要が設定されているよ！
-								</strong>
+								<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
 							) : (
 								false
 							)}
@@ -181,16 +178,12 @@ const FairContent: React.FC<Props> = ({ index }) => {
 								/>
 							</RadioGroup>
 							{isSummarize ? (
-								<strong className="c-alert">
-									まとめて予約設定中のため、種別を変更することはできません。
-								</strong>
+								<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
 							) : (
 								false
 							)}
 							{isNoReception ? (
-								<strong className="c-alert">
-									予約不要が設定されているよ！
-								</strong>
+								<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
 							) : (
 								false
 							)}

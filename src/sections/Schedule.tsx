@@ -2,6 +2,7 @@ import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { ScheduleWrapper } from '../template';
 import * as Contexts from '../context/contexts';
+import AlertMessage from '../components/utils/AlertMessage';
 
 const Schedule = () => {
 	const { isRealTime, dispatch_realTime } = useContext(
@@ -47,9 +48,7 @@ const Schedule = () => {
 							label="複数部制で開催"
 						/>
 						{isSummarize ? (
-							<strong className="c-alert">
-								まとめて予約選択中は、複数部制を設定できません。
-							</strong>
+							<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
 						) : (
 							false
 						)}

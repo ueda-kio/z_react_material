@@ -6,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 
 import * as Contexts from '../context/contexts';
+import AlertMessage from '../components/utils/AlertMessage';
 
 const Reception = () => {
 	const { isRealTime, dispatch_realTime } = useContext(
@@ -137,9 +138,7 @@ const Reception = () => {
 													label="まとめて予約"
 												/>
 												{isMultiEvent ? (
-													<strong className="c-alert">
-														複数部制設定時は、まとめて予約を選択できません。
-													</strong>
+													<AlertMessage text="複数部制設定時は、まとめて予約を選択できません。" />
 												) : (
 													false
 												)}

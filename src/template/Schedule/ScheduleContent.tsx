@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
 import { ContextWrapper } from '../../ContextWrapper';
 import * as Contexts from '../../context/contexts';
+import AlertMessage from '../../components/utils/AlertMessage';
 
 type Props = {
 	category: string;
@@ -47,9 +48,7 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 
 			<div className="c-cassette__body">
 				{!cassette.length ? (
-					<strong className="c-alert">
-						開催時間を１つは選択しろ。
-					</strong>
+					<AlertMessage text="開催時間を１つ以上選択してください。" />
 				) : (
 					cassette.map((item) => (
 						<div className="scheduleContent" key={item.id}>
@@ -68,9 +67,7 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 								</button>
 							</div>
 							{isSummarize ? (
-								<strong className="c-alert">
-									まとめて予約設定中のため、種別を変更することはできません。
-								</strong>
+								<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
 							) : (
 								false
 							)}
