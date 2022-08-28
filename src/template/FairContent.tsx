@@ -14,6 +14,7 @@ import { useContext, useEffect, useState } from 'react';
 import { ContextWrapper } from '../ContextWrapper';
 import * as Contexts from '../context/contexts';
 import * as Cassette from '../components/Cassette';
+import * as Button from '../components/Button';
 import AlertMessage from '../components/utils/AlertMessage';
 import utils from '../style/Utils';
 
@@ -118,9 +119,9 @@ const FairContent: React.FC<Props> = ({ index }) => {
 							</Select>
 						</FormControl>
 					</Box>
-					<button type="button" onClick={deleteSelf}>
+					<Button.Secondary onClick={deleteSelf}>
 						削除
-					</button>
+					</Button.Secondary>
 				</>
 			}
 		>

@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { css } from '@emotion/react';
-import { Button } from '@mui/material';
 import { FairContent } from '../template/';
 import * as Contexts from '../context/contexts';
+import * as Button from '../components/Button';
 import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
 import utils from '../style/Utils';
@@ -32,9 +32,9 @@ const FairContentWrapper = () => {
 						<FairContent index={i} />
 					</div>
 				))}
-				<Button variant="outlined" onClick={handle}>
+				<Button.Secondary onClick={handle}>
 					フェアコンテンツの追加
-				</Button>
+				</Button.Secondary>
 			</SectionItem>
 		</Section>
 	);

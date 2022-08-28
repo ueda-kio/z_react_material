@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import * as Contexts from '../../context/contexts';
 import AlertMessage from '../../components/utils/AlertMessage';
 import * as Cassette from '../../components/Cassette';
+import * as Button from '../../components/Button';
 
 type Props = {
 	category: string;
@@ -66,12 +67,11 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 									variant="outlined"
 								/>
 							</div>
-							<button
-								type="button"
+							<Button.Secondary
 								onClick={() => deleteSelf(item.id)}
 							>
 								削除
-							</button>
+							</Button.Secondary>
 						</div>
 						{isSummarize ? (
 							<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
@@ -86,9 +86,9 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 				))
 			)}
 			<p>
-				<button type="button" onClick={addScheduleContent}>
+				<Button.Secondary size="small" onClick={addScheduleContent}>
 					開催時間を追加
-				</button>
+				</Button.Secondary>
 			</p>
 		</Cassette.Cassette>
 	);
