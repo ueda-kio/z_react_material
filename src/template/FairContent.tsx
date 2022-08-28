@@ -6,7 +6,6 @@ import {
 	Radio,
 	RadioGroup,
 	Select,
-	TextField,
 } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
@@ -15,6 +14,7 @@ import { ContextWrapper } from '../ContextWrapper';
 import * as Contexts from '../context/contexts';
 import * as Cassette from '../components/Cassette';
 import * as Button from '../components/Button';
+import * as TextBox from '../components/TextBox';
 import AlertMessage from '../components/utils/AlertMessage';
 import utils from '../style/Utils';
 
@@ -214,7 +214,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 			</Cassette.CassetteList>
 			<Cassette.Cassette title="詳細情報">
 				<div css={style.contents}>
-					<TextField
+					<TextBox.Normal
 						hiddenLabel
 						fullWidth
 						multiline

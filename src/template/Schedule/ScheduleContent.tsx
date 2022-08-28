@@ -1,4 +1,3 @@
-import { TextField } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
 import { css } from '@emotion/react';
@@ -6,6 +5,7 @@ import * as Contexts from '../../context/contexts';
 import AlertMessage from '../../components/utils/AlertMessage';
 import * as Cassette from '../../components/Cassette';
 import * as Button from '../../components/Button';
+import * as TextBox from '../../components/TextBox';
 
 type Props = {
 	category: string;
@@ -62,10 +62,7 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 					<div css={style.wrapper} key={item.id}>
 						<div css={style.head}>
 							<div>
-								<TextField
-									label="開始時間"
-									variant="outlined"
-								/>
+								<TextBox.Normal label="開始時間" />
 							</div>
 							<Button.Secondary
 								onClick={() => deleteSelf(item.id)}
@@ -80,7 +77,10 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 						)}
 						<div css={style.body}>
 							<p css={style.title}>タイトル</p>
-							<TextField hiddenLabel fullWidth />
+							<TextBox.Normal
+								hiddenLabel={true}
+								fullWidth={true}
+							/>
 						</div>
 					</div>
 				))

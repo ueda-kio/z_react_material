@@ -4,11 +4,21 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
+import { css } from '@emotion/react';
 
 import * as Contexts from '../context/contexts';
+import * as TextBox from '../components/TextBox';
 import AlertMessage from '../components/utils/AlertMessage';
 import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
+
+const style = {
+	dateColumn: css`
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	`,
+};
 
 const Reception = () => {
 	const { dispatch_realTime } = useContext(Contexts.RealTimeContext);
@@ -43,7 +53,6 @@ const Reception = () => {
 			<SectionItem title="予約受付方法">
 				<div>
 					<RadioGroup
-						aria-labelledby="demo-radio-buttons-group-label"
 						name="reception"
 						value={isNoReception ? '03' : reception}
 						onChange={(e) => handleChangeCategory(e)}
@@ -52,12 +61,18 @@ const Reception = () => {
 							control={<Radio value="01" />}
 							label="ネット・電話予約受付"
 						/>
-						{reception === '01' ? (
+						{!isNoReception && reception === '01' ? (
 							<div>
-								<div>
-									ネット予約: フェア開催
-									<input
-										type="text"
+								<div css={style.dateColumn}>
+									<span>
+										<span css={{ fontWeight: 'bold' }}>
+											ネット予約:
+										</span>
+										フェア開催
+									</span>
+									<TextBox.Normal
+										hiddenLabel={true}
+										sx={{ width: 59 }}
 										value={receptionLimitByNet}
 										onChange={(e) =>
 											setReceptionLimitByNet(
@@ -65,7 +80,7 @@ const Reception = () => {
 											)
 										}
 									/>
-									まで可能
+									日前まで可能
 								</div>
 								<div>
 									<div>
@@ -128,17 +143,27 @@ const Reception = () => {
 							control={<Radio value="02" />}
 							label="電話のみ"
 						/>
-						{reception === '02' ? (
+						{!isNoReception && reception === '02' ? (
 							<div>
-								電話受付: フェア開催
-								<input
-									type="text"
-									value={receptionLimitByTel}
-									onChange={(e) =>
-										setReceptionLimitByTel(e.target.value)
-									}
-								/>
-								まで可能
+								<div css={style.dateColumn}>
+									<span>
+										<span css={{ fontWeight: 'bold' }}>
+											電話受付:
+										</span>
+										フェア開催
+									</span>
+									<TextBox.Normal
+										hiddenLabel={true}
+										sx={{ width: 59 }}
+										value={receptionLimitByTel}
+										onChange={(e) =>
+											setReceptionLimitByTel(
+												e.target.value
+											)
+										}
+									/>
+									日前まで可能
+								</div>
 							</div>
 						) : (
 							false

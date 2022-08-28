@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
-import { TextField } from '@mui/material';
 import { css } from '@emotion/react';
 import * as Contexts from '../../context/contexts';
 import ScheduleContent from './ScheduleContent';
 import utils from '../../style/Utils';
+import * as TextBox from '../../components/TextBox';
 
 const style = {
 	wrapper: css`
@@ -41,7 +41,7 @@ const ScheduleWrapper = () => {
 			<div css={style.wrapper}>
 				<div className="scheduleWrap__timeInput">
 					{isMultiEvent ? <span>第1部</span> : false}
-					<TextField label="開始時間" variant="outlined" />
+					<TextBox.Normal label="開始時間" />
 				</div>
 				<ol css={style.contents}>
 					{fairContents.map((item) => {
@@ -60,7 +60,7 @@ const ScheduleWrapper = () => {
 					<div css={style.wrapper}>
 						<div className="scheduleWrap__timeInput">
 							{isMultiEvent ? <span>第2部</span> : false}
-							<TextField label="開始時間" variant="outlined" />
+							<TextBox.Normal label="開始時間" />
 						</div>
 						<ol css={style.contents}>
 							{fairContents.map((item) => {
@@ -85,10 +85,7 @@ const ScheduleWrapper = () => {
 								) : (
 									false
 								)}
-								<TextField
-									label="開始時間"
-									variant="outlined"
-								/>
+								<TextBox.Normal label="開始時間" />
 								<button
 									type="button"
 									onClick={() =>
