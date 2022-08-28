@@ -10,11 +10,11 @@ const style = {
 		gap: 26px;
 		padding: 16px 0;
 
-		&:first-child {
+		&:first-of-type {
 			padding-top: 0;
 		}
 
-		&:last-child {
+		&:last-of-type {
 			padding-bottom: 0;
 		}
 
