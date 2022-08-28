@@ -19,12 +19,9 @@ type Props = {
 	fullWidth?: boolean;
 	multiline?: boolean;
 	rows?: number;
-	placeholder?: string;
-	name?: string;
-	value?: string;
 	variant?: 'standard' | 'filled' | 'outlined';
-	onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-};
+} & React.ComponentProps<'input'> &
+	React.ComponentProps<'textarea'>;
 
 const Normal: React.FC<Props> = ({
 	sx,

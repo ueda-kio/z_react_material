@@ -214,7 +214,8 @@ const FairContent: React.FC<Props> = ({ index }) => {
 			</Cassette.CassetteList>
 			<Cassette.Cassette title="詳細情報">
 				<div css={style.contents}>
-					<TextBox.Normal
+					<TextBox.Count
+						limit={50}
 						hiddenLabel
 						fullWidth
 						multiline

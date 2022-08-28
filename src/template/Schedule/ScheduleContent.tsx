@@ -77,16 +77,17 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 						)}
 						<div css={style.body}>
 							<p css={style.title}>タイトル</p>
-							<TextBox.Normal
-								hiddenLabel={true}
-								fullWidth={true}
-							/>
+							<TextBox.Count limit={100} hiddenLabel fullWidth />
 						</div>
 					</div>
 				))
 			)}
 			<p>
-				<Button.Secondary size="small" onClick={addScheduleContent}>
+				<Button.Secondary
+					sx={{ marginTop: 4 }}
+					size="small"
+					onClick={addScheduleContent}
+				>
 					開催時間を追加
 				</Button.Secondary>
 			</p>
