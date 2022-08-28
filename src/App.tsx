@@ -7,6 +7,11 @@ import {
 } from './sections/';
 import { css } from '@emotion/react';
 import * as Provider from './context/providers';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const customTheme = createTheme({
+	spacing: 4,
+});
 
 const style = css`
 	display: grid;
@@ -20,20 +25,22 @@ const App: React.FC = () => {
 	return (
 		<form css={style}>
 			<GlobalStyle />
-			<Provider.RealTimeProvider>
-				<Provider.SummarizeProvider>
-					<Provider.NoReceptionProvider>
-						<Provider.FairProvider>
-							<Provider.MultiEventProvider>
-								<BasicInfo />
-								<Reception />
-								<FairContentWrapper />
-								<Schedule />
-							</Provider.MultiEventProvider>
-						</Provider.FairProvider>
-					</Provider.NoReceptionProvider>
-				</Provider.SummarizeProvider>
-			</Provider.RealTimeProvider>
+			<ThemeProvider theme={customTheme}>
+				<Provider.RealTimeProvider>
+					<Provider.SummarizeProvider>
+						<Provider.NoReceptionProvider>
+							<Provider.FairProvider>
+								<Provider.MultiEventProvider>
+									<BasicInfo />
+									<Reception />
+									<FairContentWrapper />
+									<Schedule />
+								</Provider.MultiEventProvider>
+							</Provider.FairProvider>
+						</Provider.NoReceptionProvider>
+					</Provider.SummarizeProvider>
+				</Provider.RealTimeProvider>
+			</ThemeProvider>
 		</form>
 	);
 };
