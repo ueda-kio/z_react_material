@@ -15,6 +15,10 @@ const style = css`
 	}
 `;
 
+const button = css`
+	margin-top: 4px;
+`;
+
 const FairContentWrapper = () => {
 	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 
@@ -32,7 +36,7 @@ const FairContentWrapper = () => {
 						<FairContent index={i} />
 					</div>
 				))}
-				<Button.Secondary onClick={handle}>
+				<Button.Secondary sx={{ marginTop: 4 }} onClick={handle}>
 					フェアコンテンツの追加
 				</Button.Secondary>
 			</SectionItem>

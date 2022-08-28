@@ -1,8 +1,9 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, SxProps } from '@mui/material/styles';
 import { Button } from '@mui/material';
 
 type Props = {
+	sx?: SxProps;
 	size?: 'large' | 'medium' | 'small';
 	variant?: 'text' | 'outlined' | 'contained';
 	onClick?: React.MouseEventHandler;
@@ -24,6 +25,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 const Secondary: React.FC<Props> = ({
+	sx,
 	size = 'medium',
 	variant = 'outlined',
 	onClick,
@@ -41,7 +43,7 @@ const Secondary: React.FC<Props> = ({
 	})();
 	return (
 		<StyledButton
-			sx={{ height: height }}
+			sx={{ height: height, ...sx }}
 			variant={variant}
 			onClick={onClick}
 		>
