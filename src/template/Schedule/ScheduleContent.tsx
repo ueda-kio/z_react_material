@@ -64,17 +64,9 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 							<div>
 								<TextBox.Normal label="開始時間" />
 							</div>
-							<Button.Secondary
-								onClick={() => deleteSelf(item.id)}
-							>
-								削除
-							</Button.Secondary>
+							<Button.Secondary onClick={() => deleteSelf(item.id)}>削除</Button.Secondary>
 						</div>
-						{isSummarize ? (
-							<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
-						) : (
-							false
-						)}
+						{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
 						<div css={style.body}>
 							<p css={style.title}>タイトル</p>
 							<TextBox.Count limit={100} hiddenLabel fullWidth />
@@ -83,11 +75,7 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 				))
 			)}
 			<p>
-				<Button.Secondary
-					sx={{ marginTop: 4 }}
-					size="small"
-					onClick={addScheduleContent}
-				>
+				<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
 					開催時間を追加
 				</Button.Secondary>
 			</p>

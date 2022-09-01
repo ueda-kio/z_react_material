@@ -1,12 +1,4 @@
-import {
-	FormControl,
-	FormControlLabel,
-	InputLabel,
-	MenuItem,
-	Radio,
-	RadioGroup,
-	Select,
-} from '@mui/material';
+import { FormControl, InputLabel, MenuItem, RadioGroup, Select } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
@@ -32,9 +24,7 @@ type Props = {
 
 const FairContent: React.FC<Props> = ({ index }) => {
 	const { isSummarize } = useContext(Contexts.SummarizeContext);
-	const { isNoReception, dispatch_noReception } = useContext(
-		Contexts.NoReceptionContext
-	);
+	const { isNoReception, dispatch_noReception } = useContext(Contexts.NoReceptionContext);
 	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
@@ -90,9 +80,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 				<>
 					<Box sx={{ minWidth: 300 }}>
 						<FormControl fullWidth>
-							<InputLabel id="demo-simple-select-label">
-								カテゴリー
-							</InputLabel>
+							<InputLabel id="demo-simple-select-label">カテゴリー</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
@@ -111,9 +99,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 							</Select>
 						</FormControl>
 					</Box>
-					<Button.Secondary onClick={deleteSelf}>
-						削除
-					</Button.Secondary>
+					<Button.Secondary onClick={deleteSelf}>削除</Button.Secondary>
 				</>
 			}
 		>
@@ -126,63 +112,25 @@ const FairContent: React.FC<Props> = ({ index }) => {
 						value={isNoReception ? '03' : receptionTypeValue}
 						onChange={(e) => {
 							setReceptionTypeValue(e.target.value);
-							dispatch_noReception(
-								e.target.value === '03' ? 'TRUE' : 'FALSE'
-							);
+							dispatch_noReception(e.target.value === '03' ? 'TRUE' : 'FALSE');
 						}}
 					>
-						<Input.Radio
-							value="01"
-							disabled={isSummarize || isNoReception}
-							label="要予約"
-						/>
-						<Input.Radio
-							value="02"
-							disabled={isSummarize || isNoReception}
-							label="予約優先"
-						/>
-						<Input.Radio
-							value="03"
-							disabled={isSummarize || isNoReception}
-							label="予約不要"
-						/>
+						<Input.Radio value="01" disabled={isSummarize || isNoReception} label="要予約" />
+						<Input.Radio value="02" disabled={isSummarize || isNoReception} label="予約優先" />
+						<Input.Radio value="03" disabled={isSummarize || isNoReception} label="予約不要" />
 					</RadioGroup>
-					{isSummarize ? (
-						<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
-					) : (
-						false
-					)}
-					{isNoReception ? (
-						<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
-					) : (
-						false
-					)}
+					{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
+					{isNoReception ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
 				</>
 			</Cassette.CassetteList>
 			<Cassette.CassetteList title="受付単位">
 				<>
 					<RadioGroup row onChange={setUnitToState}>
-						<Input.Radio
-							value="01"
-							disabled={isSummarize || isNoReception}
-							label="名"
-						/>
-						<Input.Radio
-							value="02"
-							disabled={isSummarize || isNoReception}
-							label="組"
-						/>
+						<Input.Radio value="01" disabled={isSummarize || isNoReception} label="名" />
+						<Input.Radio value="02" disabled={isSummarize || isNoReception} label="組" />
 					</RadioGroup>
-					{isSummarize ? (
-						<AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />
-					) : (
-						false
-					)}
-					{isNoReception ? (
-						<AlertMessage text="予約不要が設定中は予約種別を変更できません" />
-					) : (
-						false
-					)}
+					{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
+					{isNoReception ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
 				</>
 			</Cassette.CassetteList>
 			<Cassette.CassetteList title="料金">
@@ -193,15 +141,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 			</Cassette.CassetteList>
 			<Cassette.Cassette title="詳細情報">
 				<div css={style.contents}>
-					<TextBox.Count
-						limit={50}
-						hiddenLabel
-						fullWidth
-						multiline
-						rows={3}
-						placeholder="詳細"
-						name="fair_description"
-					/>
+					<TextBox.Count limit={50} hiddenLabel fullWidth multiline rows={3} placeholder="詳細" name="fair_description" />
 				</div>
 				<div css={style.contents}>画像</div>
 			</Cassette.Cassette>

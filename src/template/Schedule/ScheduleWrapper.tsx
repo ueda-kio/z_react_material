@@ -69,9 +69,7 @@ const ScheduleWrapper = () => {
 								) : (
 									<li key={item.id} css={style.contentsItem}>
 										<span>{item.id}</span>
-										<ScheduleContent
-											category={item.category}
-										/>
+										<ScheduleContent category={item.category} />
 									</li>
 								);
 							})}
@@ -80,18 +78,9 @@ const ScheduleWrapper = () => {
 					{times.map((time, i) => (
 						<div css={style.wrapper} key={time.id}>
 							<div className="scheduleWrap__timeInput">
-								{isMultiEvent ? (
-									<span>第{i + 3}部</span>
-								) : (
-									false
-								)}
+								{isMultiEvent ? <span>第{i + 3}部</span> : false}
 								<TextBox.Normal label="開始時間" />
-								<button
-									type="button"
-									onClick={() =>
-										handleClickDeleteTime(time.id)
-									}
-								>
+								<button type="button" onClick={() => handleClickDeleteTime(time.id)}>
 									第{i + 3}部を削除
 								</button>
 							</div>
@@ -100,14 +89,9 @@ const ScheduleWrapper = () => {
 									return !item.category ? ( // カテゴリ選択前は非表示
 										false
 									) : (
-										<li
-											key={item.id}
-											css={style.contentsItem}
-										>
+										<li key={item.id} css={style.contentsItem}>
 											<span>{item.id}</span>
-											<ScheduleContent
-												category={item.category}
-											/>
+											<ScheduleContent category={item.category} />
 										</li>
 									);
 								})}

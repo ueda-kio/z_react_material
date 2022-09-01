@@ -15,13 +15,7 @@ type Props = {
 	isSmall?: boolean;
 } & React.ComponentProps<'input'>;
 
-const CheckBox: React.FC<Props> = ({
-	label,
-	checked,
-	onChange,
-	disabled,
-	isSmall = false,
-}) => {
+const CheckBox: React.FC<Props> = ({ label, checked, onChange, disabled, isSmall = false }) => {
 	return (
 		<StyledForm
 			control={

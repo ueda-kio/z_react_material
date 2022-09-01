@@ -30,9 +30,7 @@ const emotionConditional = (isFullWid: boolean) => {
 const Count: React.FC<Props> = ({ limit, ...props }) => {
 	const [count, setCount] = useState(0);
 
-	const handleChangeCount: React.ChangeEventHandler<
-		HTMLInputElement | HTMLTextAreaElement
-	> = (e) => {
+	const handleChangeCount: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
 		setCount(e.target.value.length);
 	};
 
@@ -52,11 +50,7 @@ const Count: React.FC<Props> = ({ limit, ...props }) => {
 			>
 				<span>{limit}文字以内</span>
 				<span>
-					{isLimit ? (
-						<span css={{ color: 'red' }}>{count}</span>
-					) : (
-						<span>{count}</span>
-					)}
+					{isLimit ? <span css={{ color: 'red' }}>{count}</span> : <span>{count}</span>}
 					<span css={style.limit}>{limit}</span>
 				</span>
 			</p>

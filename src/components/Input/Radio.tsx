@@ -14,14 +14,7 @@ type Props = {
 	isSmall?: boolean;
 } & React.ComponentProps<'input'>;
 
-const Radio: React.FC<Props> = ({
-	label,
-	value,
-	checked,
-	onChange,
-	disabled,
-	isSmall = false,
-}) => {
+const Radio: React.FC<Props> = ({ label, value, checked, onChange, disabled, isSmall = false }) => {
 	return (
 		<StyledForm
 			control={

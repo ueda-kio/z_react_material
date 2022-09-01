@@ -7,11 +7,7 @@ const BasicInfo = () => {
 	return (
 		<Section title="基本情報">
 			<SectionItem title="フェアタイプ">
-				<TextBox.Count
-					limit={30}
-					label="フェア名"
-					sx={{ width: 511 }}
-				/>
+				<TextBox.Count limit={30} label="フェア名" sx={{ width: 511 }} />
 			</SectionItem>
 		</Section>
 	);

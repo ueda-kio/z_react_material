@@ -56,15 +56,12 @@ const baseStyle = css`
 	}
 
 	body {
-		font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Arial,
-			sans-serif;
+		font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Arial, sans-serif;
 		font-size: 1rem;
 		background-color: #f6f6f6;
 	}
 `;
 
-const GlobalStyle = () => (
-	<Global styles={[emotionReset, resetStyle, baseStyle]} />
-);
+const GlobalStyle = () => <Global styles={[emotionReset, resetStyle, baseStyle]} />;
 
 export default GlobalStyle;

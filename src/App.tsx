@@ -1,10 +1,5 @@
 import GlobalStyle from './style/GlobalStyle';
-import {
-	BasicInfo,
-	Reception,
-	FairContentWrapper,
-	Schedule,
-} from './sections/';
+import { BasicInfo, Reception, FairContentWrapper, Schedule } from './sections/';
 import { css } from '@emotion/react';
 import * as Provider from './context/providers';
 import { ThemeProvider, createTheme } from '@mui/material/styles';

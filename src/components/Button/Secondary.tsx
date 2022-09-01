@@ -24,13 +24,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 	},
 }));
 
-const Secondary: React.FC<Props> = ({
-	sx,
-	size = 'medium',
-	variant = 'outlined',
-	onClick,
-	children,
-}) => {
+const Secondary: React.FC<Props> = ({ sx, size = 'medium', variant = 'outlined', onClick, children }) => {
 	const height = (() => {
 		switch (size) {
 			case 'large':
@@ -42,11 +36,7 @@ const Secondary: React.FC<Props> = ({
 		}
 	})();
 	return (
-		<StyledButton
-			sx={{ height: height, ...sx }}
-			variant={variant}
-			onClick={onClick}
-		>
+		<StyledButton sx={{ height: height, ...sx }} variant={variant} onClick={onClick}>
 			{children}
 		</StyledButton>
 	);
