@@ -14,6 +14,7 @@ import * as Contexts from '../context/contexts';
 import * as Cassette from '../components/Cassette';
 import * as Button from '../components/Button';
 import * as TextBox from '../components/TextBox';
+import * as Input from '../components/Input';
 import AlertMessage from '../components/utils/AlertMessage';
 import utils from '../style/Utils';
 
@@ -130,20 +131,17 @@ const FairContent: React.FC<Props> = ({ index }) => {
 							);
 						}}
 					>
-						<FormControlLabel
-							control={<Radio />}
+						<Input.Radio
 							value="01"
 							disabled={isSummarize || isNoReception}
 							label="要予約"
 						/>
-						<FormControlLabel
-							control={<Radio />}
+						<Input.Radio
 							value="02"
 							disabled={isSummarize || isNoReception}
 							label="予約優先"
 						/>
-						<FormControlLabel
-							control={<Radio />}
+						<Input.Radio
 							value="03"
 							disabled={isSummarize || isNoReception}
 							label="予約不要"
@@ -164,14 +162,12 @@ const FairContent: React.FC<Props> = ({ index }) => {
 			<Cassette.CassetteList title="受付単位">
 				<>
 					<RadioGroup row onChange={setUnitToState}>
-						<FormControlLabel
-							control={<Radio />}
+						<Input.Radio
 							value="01"
 							disabled={isSummarize || isNoReception}
 							label="名"
 						/>
-						<FormControlLabel
-							control={<Radio />}
+						<Input.Radio
 							value="02"
 							disabled={isSummarize || isNoReception}
 							label="組"
@@ -191,16 +187,8 @@ const FairContent: React.FC<Props> = ({ index }) => {
 			</Cassette.CassetteList>
 			<Cassette.CassetteList title="料金">
 				<RadioGroup row name="price">
-					<FormControlLabel
-						control={<Radio />}
-						value="01"
-						label="無料"
-					/>
-					<FormControlLabel
-						control={<Radio />}
-						value="02"
-						label="有料"
-					/>
+					<Input.Radio value="01" label="無料" />
+					<Input.Radio value="02" label="有料" />
 				</RadioGroup>
 			</Cassette.CassetteList>
 			<Cassette.Cassette title="詳細情報">

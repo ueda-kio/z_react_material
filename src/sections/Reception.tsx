@@ -1,22 +1,40 @@
 import React, { useContext, useState } from 'react';
 
-import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { Checkbox } from '@mui/material';
 import { css } from '@emotion/react';
 
 import * as Contexts from '../context/contexts';
 import * as TextBox from '../components/TextBox';
+import * as Input from '../components/Input';
 import AlertMessage from '../components/utils/AlertMessage';
 import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
 
 const style = {
+	checkedContent: css`
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 0 0 0 32px;
+	`,
 	dateColumn: css`
 		display: flex;
 		align-items: center;
 		gap: 4px;
+	`,
+	summarizeContent: css`
+		display: grid;
+		grid-template-columns: 70px 1fr;
+		gap: 8px;
+		align-items: center;
+		font-size: 0.8rem;
+	`,
+	unitColum: css`
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		padding: 0 0 0 104px;
+		font-size: 0.8rem;
 	`,
 };
 
@@ -57,12 +75,9 @@ const Reception = () => {
 						value={isNoReception ? '03' : reception}
 						onChange={(e) => handleChangeCategory(e)}
 					>
-						<FormControlLabel
-							control={<Radio value="01" />}
-							label="ネット・電話予約受付"
-						/>
+						<Input.Radio label="ネット・電話予約受付" value="01" />
 						{!isNoReception && reception === '01' ? (
-							<div>
+							<div css={style.checkedContent}>
 								<div css={style.dateColumn}>
 									<span>
 										<span css={{ fontWeight: 'bold' }}>
@@ -84,52 +99,121 @@ const Reception = () => {
 								</div>
 								<div>
 									<div>
-										<FormControlLabel
-											control={
-												<Checkbox
-													checked={localRealTime}
-													onChange={(e) => {
-														dispatch_realTime(
-															e.target.checked
-																? 'TRUE'
-																: 'FALSE'
-														);
-														setLocalRealTime(
-															e.target.checked
-														);
-													}}
-												/>
-											}
+										<Input.CheckBox
 											label="リアルタイム予約"
+											checked={localRealTime}
+											onChange={(e) => {
+												dispatch_realTime(
+													e.target.checked
+														? 'TRUE'
+														: 'FALSE'
+												);
+												setLocalRealTime(
+													e.target.checked
+												);
+											}}
 										/>
 										{localRealTime ? (
-											<div>test</div>
+											<div css={style.checkedContent}>
+												<Input.CheckBox
+													label="イベント残枠によってリクエスト予約に切替"
+													isSmall={true}
+												/>
+											</div>
 										) : (
 											false
 										)}
 									</div>
 									<div>
-										<FormControlLabel
-											control={
-												<Checkbox
-													checked={localSummarize}
-													disabled={isMultiEvent}
-													onChange={(e) => {
-														dispatch_summarize(
-															e.target.checked
-																? 'TRUE'
-																: 'FALSE'
-														);
-														setLocalSummarize(
-															e.target.checked
-														);
-													}}
-												/>
-											}
+										<Input.CheckBox
 											label="まとめて予約"
+											checked={localSummarize}
+											disabled={isMultiEvent}
+											onChange={(e) => {
+												dispatch_summarize(
+													e.target.checked
+														? 'TRUE'
+														: 'FALSE'
+												);
+												setLocalSummarize(
+													e.target.checked
+												);
+											}}
 										/>
 										{isMultiEvent ? (
 											<AlertMessage text="複数部制設定時は、まとめて予約を選択できません。" />
+										) : (
+											false
+										)}
+										{localSummarize ? (
+											<>
+												<dl css={style.checkedContent}>
+													<div
+														css={
+															style.summarizeContent
+														}
+													>
+														<dt>予約種別</dt>
+														<dd>
+															<RadioGroup row>
+																<Input.Radio
+																	label="要予約"
+																	value="01"
+																	isSmall={
+																		true
+																	}
+																/>
+																<Input.Radio
+																	label="予約優先"
+																	value="02"
+																	isSmall={
+																		true
+																	}
+																/>
+															</RadioGroup>
+														</dd>
+													</div>
+													<div
+														css={
+															style.summarizeContent
+														}
+													>
+														<dt>受付単位</dt>
+														<dd>
+															<RadioGroup row>
+																<Input.Radio
+																	label="人"
+																	value="01"
+																	isSmall={
+																		true
+																	}
+																/>
+																<Input.Radio
+																	label="組"
+																	value="02"
+																	isSmall={
+																		true
+																	}
+																/>
+															</RadioGroup>
+														</dd>
+													</div>
+												</dl>
+												<div css={style.unitColum}>
+													<TextBox.Normal
+														hiddenLabel={true}
+														sx={{
+															'& .MuiInputBase-input':
+																{
+																	padding:
+																		'9px 14px',
+																	width: 40,
+																},
+														}}
+													/>
+													人まで受付
+												</div>
+											</>
 										) : (
 											false
 										)}
@@ -139,12 +223,9 @@ const Reception = () => {
 						) : (
 							false
 						)}
-						<FormControlLabel
-							control={<Radio value="02" />}
-							label="電話のみ"
-						/>
+						<Input.Radio value="02" label="電話のみ" />
 						{!isNoReception && reception === '02' ? (
-							<div>
+							<div css={style.checkedContent}>
 								<div css={style.dateColumn}>
 									<span>
 										<span css={{ fontWeight: 'bold' }}>
@@ -168,10 +249,7 @@ const Reception = () => {
 						) : (
 							false
 						)}
-						<FormControlLabel
-							control={<Radio value="03" />}
-							label="予約不要"
-						/>
+						<Input.Radio value="03" label="予約不要" />
 					</RadioGroup>
 				</div>
 			</SectionItem>
