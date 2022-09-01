@@ -10,6 +10,11 @@ import * as Provider from './context/providers';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const customTheme = createTheme({
+	palette: {
+		primary: {
+			main: '#f14361',
+		},
+	},
 	spacing: 4,
 });
 
