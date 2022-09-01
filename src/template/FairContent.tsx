@@ -10,7 +10,6 @@ import {
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
-import { ContextWrapper } from '../ContextWrapper';
 import * as Contexts from '../context/contexts';
 import * as Cassette from '../components/Cassette';
 import * as Button from '../components/Button';
@@ -31,17 +30,9 @@ type Props = {
 };
 
 const FairContent: React.FC<Props> = ({ index }) => {
-	const { isRealTime, dispatch_realTime } = useContext(
-		Contexts.RealTimeContext
-	);
-	const { isSummarize, dispatch_summarize } = useContext(
-		Contexts.SummarizeContext
-	);
+	const { isSummarize } = useContext(Contexts.SummarizeContext);
 	const { isNoReception, dispatch_noReception } = useContext(
 		Contexts.NoReceptionContext
-	);
-	const { isMultiEvent, dispatch_multiEvent } = useContext(
-		Contexts.MultiEventContext
 	);
 	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 

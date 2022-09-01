@@ -15,10 +15,6 @@ const style = css`
 	}
 `;
 
-const button = css`
-	margin-top: 4px;
-`;
-
 const FairContentWrapper = () => {
 	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 
