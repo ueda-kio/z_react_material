@@ -31,10 +31,12 @@ const App: React.FC = () => {
 						<Provider.NoReceptionProvider>
 							<Provider.FairProvider>
 								<Provider.MultiEventProvider>
-									<BasicInfo />
-									<Reception />
-									<FairContentWrapper />
-									<Schedule />
+									<Provider.ReceptionUnitProvider>
+										<BasicInfo />
+										<Reception />
+										<FairContentWrapper />
+										<Schedule />
+									</Provider.ReceptionUnitProvider>
 								</Provider.MultiEventProvider>
 							</Provider.FairProvider>
 						</Provider.NoReceptionProvider>

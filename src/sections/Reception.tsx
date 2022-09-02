@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import RadioGroup from '@mui/material/RadioGroup';
 import { css } from '@emotion/react';
@@ -41,6 +41,7 @@ const style = {
 const Reception = () => {
 	const { dispatch_realTime } = useContext(Contexts.RealTimeContext);
 	const { dispatch_summarize } = useContext(Contexts.SummarizeContext);
+	const { receptionUnit, dispatch_unit } = useContext(Contexts.ReceptionUnitContext);
 	const { isNoReception, dispatch_noReception } = useContext(Contexts.NoReceptionContext);
 	const { isMultiEvent } = useContext(Contexts.MultiEventContext);
 
@@ -62,6 +63,24 @@ const Reception = () => {
 			dispatch_realTime(localRealTime ? 'TRUE' : 'FALSE');
 			dispatch_summarize(localSummarize ? 'TRUE' : 'FALSE');
 		}
+	};
+
+	useEffect(() => {
+		console.log(receptionUnit);
+	}, [receptionUnit]);
+
+	const handleChangeUnit: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		dispatch_unit({
+			type: 'SET_UNIT',
+			unit: e.target.value,
+		});
+	};
+
+	const handleChangeUnitNumber: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+		dispatch_unit({
+			type: 'SET_NUMBER',
+			number: Number(e.target.value),
+		});
 	};
 
 	return (
@@ -129,25 +148,30 @@ const Reception = () => {
 													<div css={style.summarizeContent}>
 														<dt>受付単位</dt>
 														<dd>
-															<RadioGroup row>
+															<RadioGroup row value={receptionUnit.unit} onChange={handleChangeUnit}>
 																<Input.Radio label="人" value="01" isSmall={true} />
 																<Input.Radio label="組" value="02" isSmall={true} />
 															</RadioGroup>
 														</dd>
 													</div>
 												</dl>
-												<div css={style.unitColum}>
-													<TextBox.Normal
-														hiddenLabel={true}
-														sx={{
-															'& .MuiInputBase-input': {
-																padding: '9px 14px',
-																width: 40,
-															},
-														}}
-													/>
-													人まで受付
-												</div>
+												{receptionUnit.unit ? (
+													<div css={style.unitColum}>
+														<TextBox.Normal
+															hiddenLabel={true}
+															sx={{
+																'& .MuiInputBase-input': {
+																	padding: '9px 14px',
+																	width: 40,
+																},
+															}}
+															onChange={handleChangeUnitNumber}
+														/>
+														{receptionUnit.unit === '01' ? <>人</> : <>組</>}まで受付
+													</div>
+												) : (
+													false
+												)}
 											</>
 										) : (
 											false
