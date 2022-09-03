@@ -5,6 +5,7 @@ import * as Contexts from '../../context/contexts';
 import ScheduleContent from './ScheduleContent';
 import utils from '../../style/Utils';
 import * as TextBox from '../../components/TextBox';
+import * as Button from '../../components/Button';
 
 const style = {
 	wrapper: css`
@@ -21,6 +22,12 @@ const style = {
 		& + & {
 			margin-top: 24px;
 		}
+	`,
+	timeInput: css`
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		font-weight: bold;
 	`,
 };
 
@@ -39,8 +46,8 @@ const ScheduleWrapper = () => {
 	return (
 		<>
 			<div css={style.wrapper}>
-				<div className="scheduleWrap__timeInput">
-					{isMultiEvent ? <span>第1部</span> : false}
+				<div css={style.timeInput}>
+					{isMultiEvent ? <span>第1部:</span> : false}
 					<TextBox.Normal label="開始時間" />
 				</div>
 				<ol css={style.contents}>
@@ -58,8 +65,8 @@ const ScheduleWrapper = () => {
 			{isMultiEvent ? (
 				<>
 					<div css={style.wrapper}>
-						<div className="scheduleWrap__timeInput">
-							{isMultiEvent ? <span>第2部</span> : false}
+						<div css={style.timeInput}>
+							{isMultiEvent ? <span>第2部:</span> : false}
 							<TextBox.Normal label="開始時間" />
 						</div>
 						<ol css={style.contents}>
@@ -68,7 +75,6 @@ const ScheduleWrapper = () => {
 									false
 								) : (
 									<li key={item.id} css={style.contentsItem}>
-										<span>{item.id}</span>
 										<ScheduleContent category={item.category} unit={item.unit} />
 									</li>
 								);
@@ -77,12 +83,12 @@ const ScheduleWrapper = () => {
 					</div>
 					{times.map((time, i) => (
 						<div css={style.wrapper} key={time.id}>
-							<div className="scheduleWrap__timeInput">
-								{isMultiEvent ? <span>第{i + 3}部</span> : false}
-								<TextBox.Normal label="開始時間" />
-								<button type="button" onClick={() => handleClickDeleteTime(time.id)}>
-									第{i + 3}部を削除
-								</button>
+							<div css={[style.timeInput, { justifyContent: 'space-between' }]}>
+								<div css={style.timeInput}>
+									{isMultiEvent ? <span>第{i + 3}部:</span> : false}
+									<TextBox.Normal label="開始時間" />
+								</div>
+								<Button.Secondary onClick={() => handleClickDeleteTime(time.id)}>第{i + 3}部を削除</Button.Secondary>
 							</div>
 							<ol css={style.contents}>
 								{fairContents.map((item) => {
@@ -90,7 +96,6 @@ const ScheduleWrapper = () => {
 										false
 									) : (
 										<li key={item.id} css={style.contentsItem}>
-											<span>{item.id}</span>
 											<ScheduleContent category={item.category} unit={item.unit} />
 										</li>
 									);
@@ -99,9 +104,9 @@ const ScheduleWrapper = () => {
 						</div>
 					))}
 					{times.length < 3 ? (
-						<button type="button" onClick={handleClickAddTime}>
-							部を追加
-						</button>
+						<Button.Secondary sx={{ marginTop: 6 }} onClick={handleClickAddTime}>
+							部を追加（第5部まで追加可能）
+						</Button.Secondary>
 					) : (
 						false
 					)}

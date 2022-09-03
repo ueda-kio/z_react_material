@@ -168,7 +168,6 @@ const FairContent: React.FC<Props> = ({ index }) => {
 				<div css={style.contents}>
 					<TextBox.Count limit={50} hiddenLabel fullWidth multiline rows={3} placeholder="詳細" name="fair_description" />
 				</div>
-				<div css={style.contents}>画像</div>
 			</Cassette.Cassette>
 		</Cassette.Cassette>
 	);
