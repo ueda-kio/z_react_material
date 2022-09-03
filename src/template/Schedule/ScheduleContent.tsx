@@ -6,9 +6,11 @@ import AlertMessage from '../../components/utils/AlertMessage';
 import * as Cassette from '../../components/Cassette';
 import * as Button from '../../components/Button';
 import * as TextBox from '../../components/TextBox';
+import { Box } from '@mui/system';
 
 type Props = {
 	category: string;
+	unit: string;
 };
 
 const style = {
@@ -36,10 +38,15 @@ const style = {
 	`,
 };
 
-const ScheduleContent: React.FC<Props> = ({ category }) => {
+const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
+	const { isRealTime } = useContext(Contexts.RealTimeContext);
 	const { isSummarize } = useContext(Contexts.SummarizeContext);
+	const { receptionUnit, dispatch_unit } = useContext(Contexts.ReceptionUnitContext);
+
 	const [cassette, setCassette] = useState([{ id: nanoid() }]);
 	const categories = ['相談会', '模擬挙式', '模擬披露宴', '試食会', '試着会'];
+
+	console.log(cassette);
 
 	/**
 	 * 「削除」ボタンからコンテンツを削除する
@@ -55,30 +62,69 @@ const ScheduleContent: React.FC<Props> = ({ category }) => {
 
 	return (
 		<Cassette.Cassette title={categories[Number(category) - 1]}>
-			{!cassette.length ? (
-				<AlertMessage text="開催時間を１つ以上選択してください。" />
-			) : (
-				cassette.map((item) => (
-					<div css={style.wrapper} key={item.id}>
-						<div css={style.head}>
-							<div>
-								<TextBox.Normal label="開始時間" />
+			<>
+				{!cassette.length ? (
+					<AlertMessage text="開催時間を１つ以上選択してください。" />
+				) : (
+					cassette.map((item, i) =>
+						isSummarize && i > 0 ? (
+							false
+						) : (
+							<div css={style.wrapper} key={item.id}>
+								<div css={style.head}>
+									<div css={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+										<TextBox.Normal label="開始時間" />
+										{isRealTime ? (
+											<div css={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+												<TextBox.Normal
+													label="予約枠"
+													sx={{ width: 100 }}
+													value={receptionUnit.number}
+													disabled={isSummarize ? true : false}
+												/>
+												<Box css={isSummarize ? { opacity: 0.3 } : undefined}>
+													{isSummarize ? (
+														receptionUnit.unit === '01' ? (
+															<>人</>
+														) : (
+															<>組</>
+														)
+													) : unit === '02' ? (
+														<>組</>
+													) : (
+														<>人</>
+													)}
+												</Box>
+											</div>
+										) : (
+											false
+										)}
+									</div>
+									<Button.Secondary onClick={() => deleteSelf(item.id)}>削除</Button.Secondary>
+								</div>
+								{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
+								<div css={style.body}>
+									<p css={style.title}>タイトル</p>
+									<TextBox.Count limit={100} hiddenLabel fullWidth />
+								</div>
 							</div>
-							<Button.Secondary onClick={() => deleteSelf(item.id)}>削除</Button.Secondary>
-						</div>
-						{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
-						<div css={style.body}>
-							<p css={style.title}>タイトル</p>
-							<TextBox.Count limit={100} hiddenLabel fullWidth />
-						</div>
-					</div>
-				))
-			)}
-			<p>
-				<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
-					開催時間を追加
-				</Button.Secondary>
-			</p>
+						)
+					)
+				)}
+				<p>
+					{!isSummarize ? (
+						<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
+							開催時間を追加
+						</Button.Secondary>
+					) : !cassette.length ? (
+						<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
+							開催時間を追加
+						</Button.Secondary>
+					) : (
+						false
+					)}
+				</p>
+			</>
 		</Cassette.Cassette>
 	);
 };

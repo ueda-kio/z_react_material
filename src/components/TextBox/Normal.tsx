@@ -26,6 +26,7 @@ type Props = {
 const Normal: React.FC<Props> = ({
 	sx,
 	hiddenLabel,
+	disabled,
 	label,
 	fullWidth,
 	multiline,
@@ -39,6 +40,7 @@ const Normal: React.FC<Props> = ({
 	return (
 		<StyledTextField
 			sx={sx}
+			disabled={disabled}
 			hiddenLabel={hiddenLabel}
 			fullWidth={fullWidth}
 			multiline={multiline}

@@ -49,7 +49,7 @@ const ScheduleWrapper = () => {
 							false
 						) : (
 							<li key={item.id} css={style.contentsItem}>
-								<ScheduleContent category={item.category} />
+								<ScheduleContent category={item.category} unit={item.unit} />
 							</li>
 						);
 					})}
@@ -69,7 +69,7 @@ const ScheduleWrapper = () => {
 								) : (
 									<li key={item.id} css={style.contentsItem}>
 										<span>{item.id}</span>
-										<ScheduleContent category={item.category} />
+										<ScheduleContent category={item.category} unit={item.unit} />
 									</li>
 								);
 							})}
@@ -91,7 +91,7 @@ const ScheduleWrapper = () => {
 									) : (
 										<li key={item.id} css={style.contentsItem}>
 											<span>{item.id}</span>
-											<ScheduleContent category={item.category} />
+											<ScheduleContent category={item.category} unit={item.unit} />
 										</li>
 									);
 								})}
