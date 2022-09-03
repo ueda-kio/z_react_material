@@ -1,7 +1,7 @@
+import { useContext, useEffect, useState } from 'react';
 import { FormControl, InputLabel, MenuItem, RadioGroup, Select } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
-import { useContext, useEffect, useState } from 'react';
 import * as Contexts from '../context/contexts';
 import * as Cassette from '../components/Cassette';
 import * as Button from '../components/Button';
@@ -9,12 +9,16 @@ import * as TextBox from '../components/TextBox';
 import * as Input from '../components/Input';
 import AlertMessage from '../components/utils/AlertMessage';
 import utils from '../style/Utils';
+import CaptionText from '../components/utils/Caption';
 
 const style = {
 	contents: css`
 		& + & {
 			margin-top: ${utils.border};
 		}
+	`,
+	caption: css`
+		margin-top: 8px;
 	`,
 };
 
@@ -29,6 +33,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
 	const [categoryValue, setCategoryValue] = useState('');
+	const [paid, setPaid] = useState({ paid: '', charge: '', participants: '' });
 
 	const handleChangeCategory = (e: { target: { value: string } }) => {
 		setCategoryValue(e.target.value);
@@ -134,10 +139,30 @@ const FairContent: React.FC<Props> = ({ index }) => {
 				</>
 			</Cassette.CassetteList>
 			<Cassette.CassetteList title="料金">
-				<RadioGroup row name="price">
+				<RadioGroup row name="price" value={paid.paid} onChange={(e) => setPaid((v) => ({ ...v, paid: e.target.value }))}>
 					<Input.Radio value="01" label="無料" />
 					<Input.Radio value="02" label="有料" />
 				</RadioGroup>
+				{paid.paid === '02' ? (
+					<>
+						<Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3, marginTop: 2 }}>
+							<TextBox.Normal
+								label="料金"
+								value={paid.charge}
+								onChange={(e) => setPaid((v) => ({ ...v, charge: e.target.value }))}
+							/>
+							<TextBox.Normal
+								label="参加人数"
+								value={paid.participants}
+								onChange={(e) => setPaid((v) => ({ ...v, participants: e.target.value }))}
+							/>
+						</Box>
+						<CaptionText cssProps={style.caption} text="料金は消費税込みの単位付き総額で記入してください。" />
+						<CaptionText text="例)¥5,000" />
+					</>
+				) : (
+					false
+				)}
 			</Cassette.CassetteList>
 			<Cassette.Cassette title="詳細情報">
 				<div css={style.contents}>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 
 type Props = {
 	text: string;
+	cssProps?: SerializedStyles;
 };
 
 const style = css`
@@ -15,8 +16,8 @@ const style = css`
 	}
 `;
 
-const AlertMessage: React.FC<Props> = ({ text }) => {
-	return <strong css={style}>{text}</strong>;
+const AlertMessage: React.FC<Props> = ({ text, cssProps }) => {
+	return <strong css={[style, cssProps]}>{text}</strong>;
 };
 
 export default AlertMessage;
