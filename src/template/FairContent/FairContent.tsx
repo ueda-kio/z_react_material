@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from 'react';
 import { FormControl, InputLabel, MenuItem, RadioGroup, Select } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
-import * as Contexts from '../context/contexts';
-import * as Cassette from '../components/Cassette';
-import * as Button from '../components/Button';
-import * as TextBox from '../components/TextBox';
-import * as Input from '../components/Input';
-import AlertMessage from '../components/utils/AlertMessage';
-import utils from '../style/Utils';
-import CaptionText from '../components/utils/Caption';
+import * as Contexts from '../../context/contexts';
+import * as Cassette from '../../components/Cassette';
+import * as Button from '../../components/Button';
+import * as TextBox from '../../components/TextBox';
+import * as Input from '../../components/Input';
+import AlertMessage from '../../components/utils/AlertMessage';
+import utils from '../../style/Utils';
+import CaptionText from '../../components/utils/Caption';
 
 const style = {
 	contents: css`
@@ -168,6 +168,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 				<div css={style.contents}>
 					<TextBox.Count limit={50} hiddenLabel fullWidth multiline rows={3} placeholder="詳細" name="fair_description" />
 				</div>
+				<div></div>
 			</Cassette.Cassette>
 		</Cassette.Cassette>
 	);
