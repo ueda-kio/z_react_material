@@ -65,10 +65,6 @@ const Reception = () => {
 		}
 	};
 
-	useEffect(() => {
-		console.log(receptionUnit);
-	}, [receptionUnit]);
-
 	const handleChangeUnit: React.ChangeEventHandler<HTMLInputElement> = (e) => {
 		dispatch_unit({
 			type: 'SET_UNIT',

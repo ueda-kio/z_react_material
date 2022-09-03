@@ -46,8 +46,6 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 	const [cassette, setCassette] = useState([{ id: nanoid() }]);
 	const categories = ['相談会', '模擬挙式', '模擬披露宴', '試食会', '試着会'];
 
-	console.log(cassette);
-
 	/**
 	 * 「削除」ボタンからコンテンツを削除する
 	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
