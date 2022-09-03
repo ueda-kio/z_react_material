@@ -10,6 +10,7 @@ import * as Input from '../../components/Input';
 import AlertMessage from '../../components/utils/AlertMessage';
 import utils from '../../style/Utils';
 import CaptionText from '../../components/utils/Caption';
+import Images from './Images';
 
 const style = {
 	contents: css`
@@ -168,7 +169,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 				<div css={style.contents}>
 					<TextBox.Count limit={50} hiddenLabel fullWidth multiline rows={3} placeholder="詳細" name="fair_description" />
 				</div>
-				<div></div>
+				<Images />
 			</Cassette.Cassette>
 		</Cassette.Cassette>
 	);
