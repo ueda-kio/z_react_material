@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { css } from '@emotion/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FairContent } from '../template/';
 import * as Contexts from '../context/contexts';
 import * as Button from '../components/Button';
@@ -27,11 +28,13 @@ const FairContentWrapper = () => {
 	return (
 		<Section title="フェア内容">
 			<SectionItem title="フェアコンテンツ">
-				{fairContents.map((content, i) => (
-					<div css={style} key={content.id}>
-						<FairContent index={i} />
-					</div>
-				))}
+				<AnimatePresence>
+					{fairContents.map((content, i) => (
+						<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} css={style} key={content.id}>
+							<FairContent index={i} />
+						</motion.div>
+					))}
+				</AnimatePresence>
 				<Button.Secondary sx={{ marginTop: 4 }} onClick={handle}>
 					フェアコンテンツの追加
 				</Button.Secondary>

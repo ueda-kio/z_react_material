@@ -1,12 +1,13 @@
 import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
 import { css } from '@emotion/react';
-import * as Contexts from '../../context/contexts';
+import { Box } from '@mui/system';
+import { AnimatePresence, motion } from 'framer-motion';
 import AlertMessage from '../../components/utils/AlertMessage';
 import * as Cassette from '../../components/Cassette';
 import * as Button from '../../components/Button';
 import * as TextBox from '../../components/TextBox';
-import { Box } from '@mui/system';
+import * as Contexts from '../../context/contexts';
 
 type Props = {
 	category: string;
@@ -60,15 +61,21 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 
 	return (
 		<Cassette.Cassette title={categories[Number(category) - 1]}>
-			<>
-				{!cassette.length ? (
-					<AlertMessage text="開催時間を１つ以上選択してください。" />
-				) : (
-					cassette.map((item, i) =>
+			{!cassette.length ? (
+				<AlertMessage text="開催時間を１つ以上選択してください。" />
+			) : (
+				<AnimatePresence>
+					{cassette.map((item, i) =>
 						isSummarize && i > 0 ? (
 							false
 						) : (
-							<div css={style.wrapper} key={item.id}>
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+								css={style.wrapper}
+								key={item.id}
+							>
 								<div css={style.head}>
 									<div css={{ display: 'flex', gap: 20, alignItems: 'center' }}>
 										<TextBox.Normal label="開始時間" />
@@ -105,23 +112,23 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 									<p css={style.title}>タイトル</p>
 									<TextBox.Count limit={100} hiddenLabel fullWidth />
 								</div>
-							</div>
+							</motion.div>
 						)
-					)
-				)}
-				<p>
-					{!isSummarize ? (
-						<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
-							開催時間を追加
-						</Button.Secondary>
-					) : !cassette.length ? (
-						<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
-							開催時間を追加
-						</Button.Secondary>
-					) : (
-						false
 					)}
-				</p>
+				</AnimatePresence>
+			)}
+			<>
+				{!isSummarize ? (
+					<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
+						開催時間を追加
+					</Button.Secondary>
+				) : !cassette.length ? (
+					<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
+						開催時間を追加
+					</Button.Secondary>
+				) : (
+					false
+				)}
 			</>
 		</Cassette.Cassette>
 	);
