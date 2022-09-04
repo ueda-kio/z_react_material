@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion, Reorder, MotionValue, useMotionValue } from 'framer-motion';
+import React, { useCallback, useState } from 'react';
+import { AnimatePresence, motion, Reorder } from 'framer-motion';
 import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
 import Image from '../../components/Image/Image';
@@ -33,21 +33,23 @@ const Images = () => {
 		{ id: nanoid(), src: 'https://placehold.jp/3d4070/ffffff/150x150.png?text=img3' },
 	]);
 
-	const handleChange: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+	const handleChange: React.MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
 		console.log(e);
-	};
-	const handleDelete = (id: string) => {
+	}, []);
+
+	const handleDelete = useCallback((id: string) => {
 		setImages((v) => v.filter((image) => image.id !== id));
-	};
-	const addPhoto = () => {
+	}, []);
+
+	const addPhoto = useCallback(() => {
 		setImages((v) => {
 			return [...v, { id: nanoid(), src: 'https://placehold.jp/3d4070/ffffff/150x150.png?text=add' }];
 		});
-	};
+	}, []);
 
 	return (
 		<div css={style.wrapper}>
-			<Reorder.Group as="ul" axis="x" onReorder={setImages} values={images} css={style.list}>
+			<Reorder.Group as="ol" axis="x" onReorder={setImages} values={images} css={style.list}>
 				<AnimatePresence initial={false}>
 					{images.map((image) => (
 						<Reorder.Item

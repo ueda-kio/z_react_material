@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { css } from '@emotion/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FairContent } from '../template/';
@@ -19,11 +19,11 @@ const style = css`
 const FairContentWrapper = () => {
 	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
 
-	const handle = () => {
+	const handle = useCallback(() => {
 		dispatch_fair({
 			type: 'ADD',
 		});
-	};
+	}, []);
 
 	return (
 		<Section title="フェア内容">

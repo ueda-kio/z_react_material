@@ -20,8 +20,6 @@ const style = css`
 `;
 
 const App: React.FC = () => {
-	console.log('App');
-
 	return (
 		<form css={style}>
 			<GlobalStyle />

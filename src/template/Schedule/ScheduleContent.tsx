@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
@@ -55,9 +55,9 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 		setCassette(cassette.filter((item) => item.id !== id));
 	};
 
-	const addScheduleContent = () => {
+	const addScheduleContent = useCallback(() => {
 		setCassette((prev) => [...prev, { id: nanoid() }]);
-	};
+	}, []);
 
 	return (
 		<Cassette.Cassette title={categories[Number(category) - 1]}>

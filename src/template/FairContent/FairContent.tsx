@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { FormControl, InputLabel, MenuItem, RadioGroup, Select } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
@@ -44,41 +44,37 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	 * 選択された受付単位をfairContentに格納する
 	 * @param {Event} e radioボタンのchangeイベント
 	 */
-	const setUnitToState = (e: { target: { value: string } }) => {
+	const setUnitToState = useCallback((e: { target: { value: string } }) => {
 		dispatch_fair({
 			type: 'SET_UNIT',
 			index: index,
 			unit: e.target.value,
 		});
-	};
+	}, []);
 
 	/**
 	 * 自身のインデックスに該当するfairContentのstateにカテゴリ名を格納する
 	 * @param {Event} e selectボックスのchangeイベント
 	 */
-	const setCategoryNameToState = (e: { target: { value: string } }) => {
+	const setCategoryNameToState = useCallback((e: { target: { value: string } }) => {
 		const value = e.target.value;
 		dispatch_fair({
 			type: 'SET_CATEGORY',
 			index: index,
 			category: value,
 		});
-	};
+	}, []);
 
 	/**
 	 * 「削除」ボタンからコンテンツを削除する
 	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
 	 */
-	const deleteSelf = () => {
+	const deleteSelf = useCallback(() => {
 		dispatch_fair({
 			type: 'DELETE',
 			index,
 		});
-	};
-
-	useEffect(() => {
-		console.log('fair.fairContents', fairContents);
-	}, [fairContents]);
+	}, []);
 
 	return (
 		<Cassette.Cassette

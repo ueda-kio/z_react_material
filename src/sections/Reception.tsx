@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import RadioGroup from '@mui/material/RadioGroup';
 import { css } from '@emotion/react';
@@ -51,7 +51,7 @@ const Reception = () => {
 	const [localRealTime, setLocalRealTime] = useState(false);
 	const [localSummarize, setLocalSummarize] = useState(false);
 
-	const handleChangeCategory = (e: { target: { value: string } }) => {
+	const handleChangeCategory = useCallback((e: { target: { value: string } }) => {
 		const value = e.target.value;
 		setReception(value);
 		dispatch_noReception(value === '03' ? 'TRUE' : 'FALSE');
@@ -63,21 +63,21 @@ const Reception = () => {
 			dispatch_realTime(localRealTime ? 'TRUE' : 'FALSE');
 			dispatch_summarize(localSummarize ? 'TRUE' : 'FALSE');
 		}
-	};
+	}, []);
 
-	const handleChangeUnit: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+	const handleChangeUnit: React.ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
 		dispatch_unit({
 			type: 'SET_UNIT',
 			unit: e.target.value,
 		});
-	};
+	}, []);
 
-	const handleChangeUnitNumber: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+	const handleChangeUnitNumber: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((e) => {
 		dispatch_unit({
 			type: 'SET_NUMBER',
 			number: Number(e.target.value),
 		});
-	};
+	}, []);
 
 	return (
 		<Section title="予約情報">

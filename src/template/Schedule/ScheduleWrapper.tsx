@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -37,12 +37,12 @@ const ScheduleWrapper = () => {
 	const { fairContents } = useContext(Contexts.FairContext);
 	const [times, setTimes] = useState([] as { id: string }[]);
 
-	const handleClickAddTime = () => {
+	const handleClickAddTime = useCallback(() => {
 		setTimes((v) => [...v, { id: nanoid() }]);
-	};
-	const handleClickDeleteTime = (id: string) => {
+	}, []);
+	const handleClickDeleteTime = useCallback((id: string) => {
 		setTimes((v) => v.filter((time) => id !== time.id));
-	};
+	}, []);
 
 	return (
 		<>
