@@ -1,8 +1,9 @@
 import GlobalStyle from './style/GlobalStyle';
-import { BasicInfo, Reception, FairContentWrapper, Schedule } from './sections/';
+import { BasicInfo, Reception, FairContentWrapper, Schedule, BottomArea, FixedArea } from './sections/';
 import { css } from '@emotion/react';
 import * as Provider from './context/providers';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useMemo, useState } from 'react';
 
 const customTheme = createTheme({
 	palette: {
@@ -20,6 +21,13 @@ const style = css`
 `;
 
 const App: React.FC = () => {
+	const [isBottomViewed, setIsBottomViewed] = useState(false);
+
+	const BasicInfoMemo = useMemo(() => <BasicInfo />, []);
+	const ReceptionMemo = useMemo(() => <Reception />, []);
+	const FairContentWrapperMemo = useMemo(() => <FairContentWrapper />, []);
+	const ScheduleMemo = useMemo(() => <Schedule />, []);
+
 	return (
 		<form css={style}>
 			<GlobalStyle />
@@ -30,16 +38,18 @@ const App: React.FC = () => {
 							<Provider.FairProvider>
 								<Provider.MultiEventProvider>
 									<Provider.ReceptionUnitProvider>
-										<BasicInfo />
-										<Reception />
-										<FairContentWrapper />
-										<Schedule />
+										{BasicInfoMemo}
+										{ReceptionMemo}
+										{FairContentWrapperMemo}
+										{ScheduleMemo}
 									</Provider.ReceptionUnitProvider>
 								</Provider.MultiEventProvider>
 							</Provider.FairProvider>
 						</Provider.NoReceptionProvider>
 					</Provider.SummarizeProvider>
 				</Provider.RealTimeProvider>
+				<BottomArea setIsBottomViewed={setIsBottomViewed} />
+				<FixedArea isBottomViewed={isBottomViewed} />
 			</ThemeProvider>
 		</form>
 	);

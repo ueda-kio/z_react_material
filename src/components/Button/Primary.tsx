@@ -12,19 +12,17 @@ type Props = {
 
 const StyledButton = styled(Button)(({ theme }) => ({
 	padding: theme.spacing(0, 6),
-	border: '1px solid #d8d8d8',
 	borderRadius: '24px',
-	backgroundColor: '#fff',
+	backgroundColor: '#ea6077',
 	fontWeight: 'bold',
-	color: '#595959',
+	color: '#fff',
 	lineHeight: '40px',
 	'&:hover': {
-		borderColor: '#bfbfbf',
-		backgroundColor: '#e8e8e8',
+		backgroundColor: '#d3566b',
 	},
 }));
 
-const Secondary: React.FC<Props> = ({ sx, size = 'medium', variant = 'outlined', onClick, children }) => {
+const Primary: React.FC<Props> = ({ sx, size = 'medium', variant = 'outlined', onClick, children }) => {
 	const styleOfSize = (() => {
 		switch (size) {
 			case 'large':
@@ -42,4 +40,4 @@ const Secondary: React.FC<Props> = ({ sx, size = 'medium', variant = 'outlined',
 	);
 };
 
-export default Secondary;
+export default Primary;
