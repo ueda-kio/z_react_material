@@ -65,7 +65,13 @@ const ScheduleWrapper = () => {
 			</div>
 			{isMultiEvent ? (
 				<AnimatePresence>
-					<motion.div key={nanoid()} css={style.wrapper} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+					<motion.div
+						key="second_schedule"
+						css={style.wrapper}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+					>
 						<div css={style.timeInput}>
 							{isMultiEvent ? <span>第2部:</span> : false}
 							<TextBox.Normal label="開始時間" />
