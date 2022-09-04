@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
-import * as Contexts from '../../context/contexts';
-import ScheduleContent from './ScheduleContent';
+import { AnimatePresence, motion } from 'framer-motion';
 import utils from '../../style/Utils';
+import ScheduleContent from './ScheduleContent';
 import * as TextBox from '../../components/TextBox';
 import * as Button from '../../components/Button';
+import * as Contexts from '../../context/contexts';
 
 const style = {
 	wrapper: css`
@@ -63,8 +64,8 @@ const ScheduleWrapper = () => {
 				</ol>
 			</div>
 			{isMultiEvent ? (
-				<>
-					<div css={style.wrapper}>
+				<AnimatePresence>
+					<motion.div key={nanoid()} css={style.wrapper} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 						<div css={style.timeInput}>
 							{isMultiEvent ? <span>第2部:</span> : false}
 							<TextBox.Normal label="開始時間" />
@@ -80,9 +81,15 @@ const ScheduleWrapper = () => {
 								);
 							})}
 						</ol>
-					</div>
+					</motion.div>
 					{times.map((time, i) => (
-						<div css={style.wrapper} key={time.id}>
+						<motion.div
+							css={style.wrapper}
+							key={time.id}
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+						>
 							<div css={[style.timeInput, { justifyContent: 'space-between' }]}>
 								<div css={style.timeInput}>
 									{isMultiEvent ? <span>第{i + 3}部:</span> : false}
@@ -101,7 +108,7 @@ const ScheduleWrapper = () => {
 									);
 								})}
 							</ol>
-						</div>
+						</motion.div>
 					))}
 					{times.length < 3 ? (
 						<Button.Secondary sx={{ marginTop: 6 }} onClick={handleClickAddTime}>
@@ -110,7 +117,7 @@ const ScheduleWrapper = () => {
 					) : (
 						false
 					)}
-				</>
+				</AnimatePresence>
 			) : (
 				false
 			)}

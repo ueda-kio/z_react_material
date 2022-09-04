@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
+import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import { AnimatePresence, motion } from 'framer-motion';
