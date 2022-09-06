@@ -5,13 +5,13 @@ export const receptionUnitSlice = createSlice({
 	name: 'receptionUnit',
 	initialState: { unit: '', number: '' },
 	reducers: {
-		setUnit: (state, action: PayloadAction<'01' | '02'>) => {
+		setReceptionUnit: (state, action: PayloadAction<string>) => {
 			return {
 				unit: action.payload ?? '01',
 				number: state.number,
 			};
 		},
-		setNumber: (state, action: PayloadAction<string>) => {
+		setReceptionNumber: (state, action: PayloadAction<string>) => {
 			return {
 				unit: state.unit,
 				number: action.payload ?? 0,
@@ -20,6 +20,6 @@ export const receptionUnitSlice = createSlice({
 	},
 });
 
-export const { setUnit, setNumber } = receptionUnitSlice.actions;
+export const { setReceptionUnit, setReceptionNumber } = receptionUnitSlice.actions;
 
 export default receptionUnitSlice.reducer;

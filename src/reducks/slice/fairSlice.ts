@@ -8,7 +8,7 @@ export const fairSlice = createSlice({
 	reducers: {
 		addFair: (state) => [...state, { id: nanoid(), category: '', unit: '' }],
 		deleteFair: (state, action: PayloadAction<number>) => state.filter((_, i) => i !== action.payload),
-		setCategory: (state, action: PayloadAction<{ index: number; category: string }>) => {
+		setFairCategory: (state, action: PayloadAction<{ index: number; category: string }>) => {
 			return state.map((item, i) => {
 				const newContent = {
 					id: item.id,
@@ -18,7 +18,7 @@ export const fairSlice = createSlice({
 				return i === action.payload.index ? newContent : item;
 			});
 		},
-		setUnit: (state, action: PayloadAction<{ index: number; unit: string }>) => {
+		setFairUnit: (state, action: PayloadAction<{ index: number; unit: string }>) => {
 			return state.map((item, i) => {
 				const newContent = {
 					id: item.id,
@@ -31,6 +31,6 @@ export const fairSlice = createSlice({
 	},
 });
 
-export const { addFair, deleteFair, setCategory, setUnit } = fairSlice.actions;
+export const { addFair, deleteFair, setFairCategory, setFairUnit } = fairSlice.actions;
 
 export default fairSlice.reducer;
