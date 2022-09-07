@@ -56,11 +56,14 @@ const Reception = () => {
 	const [localRealTime, setLocalRealTime] = useState(false);
 	const [localSummarize, setLocalSummarize] = useState(false);
 
-	const handleChangeCategory = useCallback((e: { target: { value: string } }) => {
+	console.log('localSummarize', localSummarize);
+
+	const handleChangeReception = useCallback((e: { target: { value: string } }) => {
 		const value = e.target.value;
 		setReception(value);
 		dispatch(changeNoReservation(value === '03'));
 
+		console.log('handleChange', localSummarize);
 		if (value !== '01') {
 			dispatch(changeRealTime(false));
 			dispatch(changeSummarize(false));
@@ -82,7 +85,7 @@ const Reception = () => {
 		<Section title="予約情報">
 			<SectionItem title="予約受付方法">
 				<div>
-					<RadioGroup name="reception" value={isNoReservation ? '03' : reception} onChange={(e) => handleChangeCategory(e)}>
+					<RadioGroup name="reception" value={isNoReservation ? '03' : reception} onChange={(e) => handleChangeReception(e)}>
 						<Input.Radio label="ネット・電話予約受付" value="01" />
 						{!isNoReservation && reception === '01' ? (
 							<div css={style.checkedContent}>
