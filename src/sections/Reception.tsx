@@ -56,14 +56,11 @@ const Reception = () => {
 	const [localRealTime, setLocalRealTime] = useState(false);
 	const [localSummarize, setLocalSummarize] = useState(false);
 
-	console.log('localSummarize', localSummarize);
-
-	const handleChangeReception = useCallback((e: { target: { value: string } }) => {
+	const handleChangeReception = (e: { target: { value: string } }) => {
 		const value = e.target.value;
 		setReception(value);
 		dispatch(changeNoReservation(value === '03'));
 
-		console.log('handleChange', localSummarize);
 		if (value !== '01') {
 			dispatch(changeRealTime(false));
 			dispatch(changeSummarize(false));
@@ -71,7 +68,7 @@ const Reception = () => {
 			dispatch(changeRealTime(localRealTime));
 			dispatch(changeSummarize(localSummarize));
 		}
-	}, []);
+	};
 
 	const handleChangeUnit: React.ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
 		dispatch(setReceptionUnit(e.target.value));
