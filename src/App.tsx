@@ -1,7 +1,6 @@
 import GlobalStyle from './style/GlobalStyle';
 import { BasicInfo, Reception, FairContentWrapper, Schedule, BottomArea, FixedArea } from './sections/';
 import { css } from '@emotion/react';
-import * as Provider from './context/providers';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMemo, useState } from 'react';
 
@@ -32,22 +31,10 @@ const App: React.FC = () => {
 		<form css={style}>
 			<GlobalStyle />
 			<ThemeProvider theme={customTheme}>
-				<Provider.RealTimeProvider>
-					<Provider.SummarizeProvider>
-						<Provider.NoReceptionProvider>
-							<Provider.FairProvider>
-								<Provider.MultiEventProvider>
-									<Provider.ReceptionUnitProvider>
-										{BasicInfoMemo}
-										{ReceptionMemo}
-										{FairContentWrapperMemo}
-										{ScheduleMemo}
-									</Provider.ReceptionUnitProvider>
-								</Provider.MultiEventProvider>
-							</Provider.FairProvider>
-						</Provider.NoReceptionProvider>
-					</Provider.SummarizeProvider>
-				</Provider.RealTimeProvider>
+				{BasicInfoMemo}
+				{ReceptionMemo}
+				{FairContentWrapperMemo}
+				{ScheduleMemo}
 				<BottomArea setIsBottomViewed={setIsBottomViewed} />
 				<FixedArea isBottomViewed={isBottomViewed} />
 			</ThemeProvider>

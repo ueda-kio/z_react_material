@@ -1,8 +1,7 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FormControl, InputLabel, MenuItem, RadioGroup, Select } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
-import * as Contexts from '../../context/contexts';
 import * as Cassette from '../../components/Cassette';
 import * as Button from '../../components/Button';
 import * as TextBox from '../../components/TextBox';
@@ -11,6 +10,9 @@ import AlertMessage from '../../components/utils/AlertMessage';
 import utils from '../../style/Utils';
 import CaptionText from '../../components/utils/Caption';
 import Images from './Images';
+import { useAppDispatch, useReservationSelector } from '../../reducks/hooks';
+import { deleteFair, setFairCategory, setFairUnit } from '../../reducks/slice/fairSlice';
+import { changeNoReservation } from '../../reducks/slice/reservationSlice';
 
 const style = {
 	contents: css`
@@ -28,9 +30,10 @@ type Props = {
 };
 
 const FairContent: React.FC<Props> = ({ index }) => {
-	const { isSummarize } = useContext(Contexts.SummarizeContext);
-	const { isNoReception, dispatch_noReception } = useContext(Contexts.NoReceptionContext);
-	const { fairContents, dispatch_fair } = useContext(Contexts.FairContext);
+	const dispatch = useAppDispatch();
+	const {
+		reservation: { isSummarize, isNoReservation },
+	} = useReservationSelector();
 
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
 	const [categoryValue, setCategoryValue] = useState('');
@@ -45,11 +48,7 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	 * @param {Event} e radioボタンのchangeイベント
 	 */
 	const setUnitToState = useCallback((e: { target: { value: string } }) => {
-		dispatch_fair({
-			type: 'SET_UNIT',
-			index: index,
-			unit: e.target.value,
-		});
+		dispatch(setFairUnit({ index, unit: e.target.value }));
 	}, []);
 
 	/**
@@ -58,23 +57,14 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	 */
 	const setCategoryNameToState = useCallback((e: { target: { value: string } }) => {
 		const value = e.target.value;
-		dispatch_fair({
-			type: 'SET_CATEGORY',
-			index: index,
-			category: value,
-		});
+		dispatch(setFairCategory({ index, category: value }));
 	}, []);
 
 	/**
 	 * 「削除」ボタンからコンテンツを削除する
 	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
 	 */
-	const deleteSelf = useCallback(() => {
-		dispatch_fair({
-			type: 'DELETE',
-			index,
-		});
-	}, []);
+	const deleteSelf = useCallback(() => dispatch(deleteFair(index)), []);
 
 	return (
 		<Cassette.Cassette
@@ -111,28 +101,28 @@ const FairContent: React.FC<Props> = ({ index }) => {
 						row
 						aria-labelledby="demo-radio-buttons-group-label"
 						name="reception_02"
-						value={isNoReception ? '03' : receptionTypeValue}
+						value={isNoReservation ? '03' : receptionTypeValue}
 						onChange={(e) => {
 							setReceptionTypeValue(e.target.value);
-							dispatch_noReception(e.target.value === '03' ? 'TRUE' : 'FALSE');
+							dispatch(changeNoReservation(e.target.value === '03'));
 						}}
 					>
-						<Input.Radio value="01" disabled={isSummarize || isNoReception} label="要予約" />
-						<Input.Radio value="02" disabled={isSummarize || isNoReception} label="予約優先" />
-						<Input.Radio value="03" disabled={isSummarize || isNoReception} label="予約不要" />
+						<Input.Radio value="01" disabled={isSummarize || isNoReservation} label="要予約" />
+						<Input.Radio value="02" disabled={isSummarize || isNoReservation} label="予約優先" />
+						<Input.Radio value="03" disabled={isSummarize || isNoReservation} label="予約不要" />
 					</RadioGroup>
 					{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
-					{isNoReception ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
+					{isNoReservation ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
 				</>
 			</Cassette.CassetteList>
 			<Cassette.CassetteList title="受付単位">
 				<>
 					<RadioGroup row onChange={setUnitToState}>
-						<Input.Radio value="01" disabled={isSummarize || isNoReception} label="名" />
-						<Input.Radio value="02" disabled={isSummarize || isNoReception} label="組" />
+						<Input.Radio value="01" disabled={isSummarize || isNoReservation} label="名" />
+						<Input.Radio value="02" disabled={isSummarize || isNoReservation} label="組" />
 					</RadioGroup>
 					{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
-					{isNoReception ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
+					{isNoReservation ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
 				</>
 			</Cassette.CassetteList>
 			<Cassette.CassetteList title="料金">

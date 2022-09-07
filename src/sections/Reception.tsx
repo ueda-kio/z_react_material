@@ -1,14 +1,16 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import RadioGroup from '@mui/material/RadioGroup';
 import { css } from '@emotion/react';
 
-import * as Contexts from '../context/contexts';
 import * as TextBox from '../components/TextBox';
 import * as Input from '../components/Input';
 import AlertMessage from '../components/utils/AlertMessage';
 import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
+import { useAppDispatch, useConditionSelector, useReceptionUnitSelector, useReservationSelector } from '../reducks/hooks';
+import { changeNoReservation, changeRealTime, changeSummarize } from '../reducks/slice/reservationSlice';
+import { setReceptionNumber, setReceptionUnit } from '../reducks/slice/receptionUnitSlice';
 
 const style = {
 	checkedContent: css`
@@ -39,11 +41,14 @@ const style = {
 };
 
 const Reception = () => {
-	const { dispatch_realTime } = useContext(Contexts.RealTimeContext);
-	const { dispatch_summarize } = useContext(Contexts.SummarizeContext);
-	const { receptionUnit, dispatch_unit } = useContext(Contexts.ReceptionUnitContext);
-	const { isNoReception, dispatch_noReception } = useContext(Contexts.NoReceptionContext);
-	const { isMultiEvent } = useContext(Contexts.MultiEventContext);
+	const dispatch = useAppDispatch();
+	const {
+		reservation: { isNoReservation },
+	} = useReservationSelector();
+	const {
+		condition: { isMultiEvent },
+	} = useConditionSelector();
+	const { receptionUnit } = useReceptionUnitSelector();
 
 	const [reception, setReception] = useState('');
 	const [receptionLimitByNet, setReceptionLimitByNet] = useState('');
@@ -54,38 +59,32 @@ const Reception = () => {
 	const handleChangeCategory = useCallback((e: { target: { value: string } }) => {
 		const value = e.target.value;
 		setReception(value);
-		dispatch_noReception(value === '03' ? 'TRUE' : 'FALSE');
+		dispatch(changeNoReservation(value === '03'));
 
 		if (value !== '01') {
-			dispatch_realTime('FALSE');
-			dispatch_summarize('FALSE');
+			dispatch(changeRealTime(false));
+			dispatch(changeSummarize(false));
 		} else {
-			dispatch_realTime(localRealTime ? 'TRUE' : 'FALSE');
-			dispatch_summarize(localSummarize ? 'TRUE' : 'FALSE');
+			dispatch(changeRealTime(localRealTime));
+			dispatch(changeSummarize(localSummarize));
 		}
 	}, []);
 
 	const handleChangeUnit: React.ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-		dispatch_unit({
-			type: 'SET_UNIT',
-			unit: e.target.value,
-		});
+		dispatch(setReceptionUnit(e.target.value));
 	}, []);
 
 	const handleChangeUnitNumber: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((e) => {
-		dispatch_unit({
-			type: 'SET_NUMBER',
-			number: Number(e.target.value),
-		});
+		dispatch(setReceptionNumber(e.target.value));
 	}, []);
 
 	return (
 		<Section title="予約情報">
 			<SectionItem title="予約受付方法">
 				<div>
-					<RadioGroup name="reception" value={isNoReception ? '03' : reception} onChange={(e) => handleChangeCategory(e)}>
+					<RadioGroup name="reception" value={isNoReservation ? '03' : reception} onChange={(e) => handleChangeCategory(e)}>
 						<Input.Radio label="ネット・電話予約受付" value="01" />
-						{!isNoReception && reception === '01' ? (
+						{!isNoReservation && reception === '01' ? (
 							<div css={style.checkedContent}>
 								<div css={style.dateColumn}>
 									<span>
@@ -106,7 +105,7 @@ const Reception = () => {
 											label="リアルタイム予約"
 											checked={localRealTime}
 											onChange={(e) => {
-												dispatch_realTime(e.target.checked ? 'TRUE' : 'FALSE');
+												dispatch(changeRealTime(e.target.checked));
 												setLocalRealTime(e.target.checked);
 											}}
 										/>
@@ -124,7 +123,7 @@ const Reception = () => {
 											checked={localSummarize}
 											disabled={isMultiEvent}
 											onChange={(e) => {
-												dispatch_summarize(e.target.checked ? 'TRUE' : 'FALSE');
+												dispatch(changeSummarize(e.target.checked));
 												setLocalSummarize(e.target.checked);
 											}}
 										/>
@@ -179,7 +178,7 @@ const Reception = () => {
 							false
 						)}
 						<Input.Radio value="02" label="電話のみ" />
-						{!isNoReception && reception === '02' ? (
+						{!isNoReservation && reception === '02' ? (
 							<div css={style.checkedContent}>
 								<div css={style.dateColumn}>
 									<span>

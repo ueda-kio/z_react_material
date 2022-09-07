@@ -1,13 +1,13 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useReceptionUnitSelector, useReservationSelector } from '../../reducks/hooks';
 import AlertMessage from '../../components/utils/AlertMessage';
 import * as Cassette from '../../components/Cassette';
 import * as Button from '../../components/Button';
 import * as TextBox from '../../components/TextBox';
-import * as Contexts from '../../context/contexts';
 
 type Props = {
 	category: string;
@@ -40,9 +40,10 @@ const style = {
 };
 
 const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
-	const { isRealTime } = useContext(Contexts.RealTimeContext);
-	const { isSummarize } = useContext(Contexts.SummarizeContext);
-	const { receptionUnit, dispatch_unit } = useContext(Contexts.ReceptionUnitContext);
+	const {
+		reservation: { isSummarize, isRealTime },
+	} = useReservationSelector();
+	const { receptionUnit } = useReceptionUnitSelector();
 
 	const [cassette, setCassette] = useState([{ id: nanoid() }]);
 	const categories = ['相談会', '模擬挙式', '模擬披露宴', '試食会', '試着会'];

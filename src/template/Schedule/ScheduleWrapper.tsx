@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -6,7 +6,7 @@ import utils from '../../style/Utils';
 import ScheduleContent from './ScheduleContent';
 import * as TextBox from '../../components/TextBox';
 import * as Button from '../../components/Button';
-import * as Contexts from '../../context/contexts';
+import { useConditionSelector, useFairSelector } from '../../reducks/hooks';
 
 const style = {
 	wrapper: css`
@@ -33,8 +33,10 @@ const style = {
 };
 
 const ScheduleWrapper = () => {
-	const { isMultiEvent } = useContext(Contexts.MultiEventContext);
-	const { fairContents } = useContext(Contexts.FairContext);
+	const { fair } = useFairSelector();
+	const {
+		condition: { isMultiEvent },
+	} = useConditionSelector();
 	const [times, setTimes] = useState([] as { id: string }[]);
 
 	const handleClickAddTime = useCallback(() => {
@@ -52,7 +54,7 @@ const ScheduleWrapper = () => {
 					<TextBox.Normal label="開始時間" />
 				</div>
 				<ol css={style.contents}>
-					{fairContents.map((item) => {
+					{fair.map((item) => {
 						return !item.category ? ( // カテゴリ選択前は非表示
 							false
 						) : (
@@ -77,7 +79,7 @@ const ScheduleWrapper = () => {
 							<TextBox.Normal label="開始時間" />
 						</div>
 						<ol css={style.contents}>
-							{fairContents.map((item) => {
+							{fair.map((item) => {
 								return !item.category ? ( // カテゴリ選択前は非表示
 									false
 								) : (
@@ -104,7 +106,7 @@ const ScheduleWrapper = () => {
 								<Button.Secondary onClick={() => handleClickDeleteTime(time.id)}>第{i + 3}部を削除</Button.Secondary>
 							</div>
 							<ol css={style.contents}>
-								{fairContents.map((item) => {
+								{fair.map((item) => {
 									return !item.category ? ( // カテゴリ選択前は非表示
 										false
 									) : (
