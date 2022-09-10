@@ -10,7 +10,7 @@ import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
 import { useAppDispatch, useConditionSelector, useReceptionUnitSelector, useReservationSelector } from '../reducks/hooks';
 import { changeNoReservation, changeRealTime, changeSummarize } from '../reducks/slice/reservationSlice';
-import { setReceptionNumber, setReceptionUnit } from '../reducks/slice/receptionUnitSlice';
+import { resetReception, setReceptionNumber, setReceptionUnit } from '../reducks/slice/receptionUnitSlice';
 
 const style = {
 	checkedContent: css`
@@ -125,6 +125,9 @@ const Reception = () => {
 											onChange={(e) => {
 												dispatch(changeSummarize(e.target.checked));
 												setLocalSummarize(e.target.checked);
+												if (!e.target.checked) {
+													dispatch(resetReception());
+												}
 											}}
 										/>
 										{isMultiEvent ? <AlertMessage text="複数部制設定時は、まとめて予約を選択できません。" /> : false}
@@ -144,7 +147,7 @@ const Reception = () => {
 														<dt>受付単位</dt>
 														<dd>
 															<RadioGroup row value={receptionUnit.unit} onChange={handleChangeUnit}>
-																<Input.Radio label="人" value="01" isSmall={true} />
+																<Input.Radio label="名" value="01" isSmall={true} />
 																<Input.Radio label="組" value="02" isSmall={true} />
 															</RadioGroup>
 														</dd>
@@ -162,7 +165,7 @@ const Reception = () => {
 															}}
 															onChange={handleChangeUnitNumber}
 														/>
-														{receptionUnit.unit === '01' ? <>人</> : <>組</>}まで受付
+														{receptionUnit.unit === '01' ? <>名</> : <>組</>}まで受付
 													</div>
 												) : (
 													false

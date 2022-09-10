@@ -3,11 +3,12 @@ import { nanoid } from 'nanoid';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useReceptionUnitSelector, useReservationSelector } from '../../reducks/hooks';
+import { useAppDispatch, useReceptionUnitSelector, useReservationSelector } from '../../reducks/hooks';
 import AlertMessage from '../../components/utils/AlertMessage';
 import * as Cassette from '../../components/Cassette';
 import * as Button from '../../components/Button';
 import * as TextBox from '../../components/TextBox';
+import { setReceptionNumber } from '../../reducks/slice/receptionUnitSlice';
 
 type Props = {
 	category: string;
@@ -40,6 +41,7 @@ const style = {
 };
 
 const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
+	const dispatch = useAppDispatch();
 	const {
 		reservation: { isSummarize, isRealTime },
 	} = useReservationSelector();
@@ -87,18 +89,19 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 													sx={{ width: 100 }}
 													value={receptionUnit.number}
 													disabled={isSummarize ? true : false}
+													onChange={(e) => dispatch(setReceptionNumber(e.target.value))}
 												/>
 												<Box css={isSummarize ? { opacity: 0.3 } : undefined}>
 													{isSummarize ? (
 														receptionUnit.unit === '01' ? (
-															<>人</>
+															<>名</>
 														) : (
 															<>組</>
 														)
 													) : unit === '02' ? (
 														<>組</>
 													) : (
-														<>人</>
+														<>名</>
 													)}
 												</Box>
 											</div>
