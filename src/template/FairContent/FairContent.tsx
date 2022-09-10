@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormControl, InputLabel, MenuItem, RadioGroup, Select } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
@@ -25,14 +25,17 @@ const style = {
 	`,
 };
 
+type CategoriesType = { id: string; value: string; text: string; disabled: boolean }[];
 type Props = {
 	index: number;
+	categories: CategoriesType;
+	setCategories: React.Dispatch<React.SetStateAction<CategoriesType>>;
 };
 
-const FairContent: React.FC<Props> = ({ index }) => {
+const FairContent: React.FC<Props> = ({ index, categories, setCategories }) => {
 	const dispatch = useAppDispatch();
 	const {
-		reservation: { isSummarize, isNoReservation },
+		reservation: { isSummarize, isRealTime, isNoReservation },
 	} = useReservationSelector();
 
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
@@ -42,6 +45,29 @@ const FairContent: React.FC<Props> = ({ index }) => {
 	const handleChangeCategory = (e: { target: { value: string } }) => {
 		setCategoryValue(e.target.value);
 	};
+
+	useEffect(() => {
+		// 選択されたカテゴリーをdisabledにする
+		setCategories((v) =>
+			v.map((category) => {
+				if (category.value === categoryValue) {
+					return { ...category, disabled: true };
+				}
+				return category;
+			})
+		);
+		// unmount時にカテゴリーを活性化する
+		return () => {
+			setCategories((v) =>
+				v.map((category) => {
+					if (category.value === categoryValue) {
+						return { ...category, disabled: false };
+					}
+					return category;
+				})
+			);
+		};
+	}, [categoryValue]);
 
 	/**
 	 * 選択された受付単位をfairContentに格納する
@@ -81,13 +107,14 @@ const FairContent: React.FC<Props> = ({ index }) => {
 								onChange={(e) => {
 									handleChangeCategory(e);
 									setCategoryNameToState(e);
+									// selectCategory(e.target.value);
 								}}
 							>
-								<MenuItem value="01">相談会</MenuItem>
-								<MenuItem value="02">模擬挙式</MenuItem>
-								<MenuItem value="03">模擬披露宴</MenuItem>
-								<MenuItem value="04">試食会</MenuItem>
-								<MenuItem value="05">試着会</MenuItem>
+								{categories.map((category) => (
+									<MenuItem key={category.id} value={category.value} disabled={category.disabled}>
+										{category.text}
+									</MenuItem>
+								))}
 							</Select>
 						</FormControl>
 					</Box>
@@ -115,16 +142,20 @@ const FairContent: React.FC<Props> = ({ index }) => {
 					{isNoReservation ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
 				</>
 			</Cassette.CassetteList>
-			<Cassette.CassetteList title="受付単位">
-				<>
-					<RadioGroup row onChange={setUnitToState}>
-						<Input.Radio value="01" disabled={isSummarize || isNoReservation} label="名" />
-						<Input.Radio value="02" disabled={isSummarize || isNoReservation} label="組" />
-					</RadioGroup>
-					{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
-					{isNoReservation ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
-				</>
-			</Cassette.CassetteList>
+			{isRealTime ? (
+				<Cassette.CassetteList title="受付単位">
+					<>
+						<RadioGroup row onChange={setUnitToState}>
+							<Input.Radio value="01" disabled={isSummarize || isNoReservation} label="名" />
+							<Input.Radio value="02" disabled={isSummarize || isNoReservation} label="組" />
+						</RadioGroup>
+						{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
+						{isNoReservation ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
+					</>
+				</Cassette.CassetteList>
+			) : (
+				false
+			)}
 			<Cassette.CassetteList title="料金">
 				<RadioGroup row name="price" value={paid.paid} onChange={(e) => setPaid((v) => ({ ...v, paid: e.target.value }))}>
 					<Input.Radio value="01" label="無料" />
