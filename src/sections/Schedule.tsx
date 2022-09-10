@@ -1,14 +1,19 @@
-import React, { useContext } from 'react';
+import { useAppDispatch, useConditionSelector, useReservationSelector } from '../reducks/hooks';
+import { changeMultiEvent } from '../reducks/slice/conditionSlice';
 import { ScheduleWrapper } from '../template';
-import * as Contexts from '../context/contexts';
 import * as Input from '../components/Input';
 import AlertMessage from '../components/utils/AlertMessage';
 import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
 
 const Schedule = () => {
-	const { isSummarize } = useContext(Contexts.SummarizeContext);
-	const { isMultiEvent, dispatch_multiEvent } = useContext(Contexts.MultiEventContext);
+	const dispatch = useAppDispatch();
+	const {
+		reservation: { isSummarize },
+	} = useReservationSelector();
+	const {
+		condition: { isMultiEvent },
+	} = useConditionSelector();
 
 	return (
 		<Section title="スケジュール">
@@ -17,7 +22,7 @@ const Schedule = () => {
 					checked={isMultiEvent}
 					disabled={isSummarize}
 					onChange={(e) => {
-						dispatch_multiEvent(e.target.checked ? 'TRUE' : 'FALSE');
+						dispatch(changeMultiEvent(e.target.checked));
 					}}
 					label="複数部制で開催"
 				/>
