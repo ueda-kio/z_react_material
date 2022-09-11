@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormControl, InputLabel, MenuItem, RadioGroup, Select } from '@mui/material';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
@@ -10,7 +10,7 @@ import AlertMessage from '../../components/utils/AlertMessage';
 import utils from '../../style/Utils';
 import CaptionText from '../../components/utils/Caption';
 import Images from './Images';
-import { useAppDispatch, useReservationSelector } from '../../reducks/hooks';
+import { useAppDispatch, useFairSelector, useReservationSelector } from '../../reducks/hooks';
 import { deleteFair, setFairCategory, setFairUnit } from '../../reducks/slice/fairSlice';
 import { changeNoReservation } from '../../reducks/slice/reservationSlice';
 
@@ -32,42 +32,19 @@ type Props = {
 	setCategories: React.Dispatch<React.SetStateAction<CategoriesType>>;
 };
 
-const FairContent: React.FC<Props> = ({ index, categories, setCategories }) => {
+const FairContent: React.FC<Props> = ({ index, categories }) => {
 	const dispatch = useAppDispatch();
 	const {
 		reservation: { isSummarize, isRealTime, isNoReservation },
 	} = useReservationSelector();
+	const { fair } = useFairSelector();
 
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
-	const [categoryValue, setCategoryValue] = useState('');
 	const [paid, setPaid] = useState({ paid: '', charge: '', participants: '' });
 
 	const handleChangeCategory = (e: { target: { value: string } }) => {
-		setCategoryValue(e.target.value);
+		const selectedValue = e.target.value;
 	};
-
-	useEffect(() => {
-		// 選択されたカテゴリーをdisabledにする
-		setCategories((v) =>
-			v.map((category) => {
-				if (category.value === categoryValue) {
-					return { ...category, disabled: true };
-				}
-				return category;
-			})
-		);
-		// unmount時にカテゴリーを活性化する
-		return () => {
-			setCategories((v) =>
-				v.map((category) => {
-					if (category.value === categoryValue) {
-						return { ...category, disabled: false };
-					}
-					return category;
-				})
-			);
-		};
-	}, [categoryValue]);
 
 	/**
 	 * 選択された受付単位をfairContentに格納する
@@ -90,7 +67,7 @@ const FairContent: React.FC<Props> = ({ index, categories, setCategories }) => {
 	 * 「削除」ボタンからコンテンツを削除する
 	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
 	 */
-	const deleteSelf = useCallback(() => dispatch(deleteFair(index)), []);
+	const deleteSelf = () => dispatch(deleteFair(index));
 
 	return (
 		<Cassette.Cassette
@@ -100,14 +77,11 @@ const FairContent: React.FC<Props> = ({ index, categories, setCategories }) => {
 						<FormControl fullWidth>
 							<InputLabel id="demo-simple-select-label">カテゴリー</InputLabel>
 							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
 								label="カテゴリー"
-								value={categoryValue}
+								value={fair[index]?.category ?? ''}
 								onChange={(e) => {
 									handleChangeCategory(e);
 									setCategoryNameToState(e);
-									// selectCategory(e.target.value);
 								}}
 							>
 								{categories.map((category) => (

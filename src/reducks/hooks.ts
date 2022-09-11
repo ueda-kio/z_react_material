@@ -10,6 +10,11 @@ export const useFairSelector = () => {
 	return { fair };
 };
 
+export const useIsOnlineSelector = () => {
+	const online = useAppSelector((state: RootState) => state.online);
+	return { online };
+};
+
 export const useUnitSelector = () => {
 	const unit = useAppSelector((state: RootState) => state.receptionUnit);
 	return { unit };

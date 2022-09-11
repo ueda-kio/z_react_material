@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
+import { onlineCategoryValues } from './onlineSlice';
 
+const initialState = [{ id: nanoid(), category: '', unit: '' }];
 export const fairSlice = createSlice({
 	name: 'fair',
-	initialState: [{ id: nanoid(), category: '', unit: '' }],
+	initialState,
 	reducers: {
 		addFair: (state) => [...state, { id: nanoid(), category: '', unit: '' }],
 		deleteFair: (state, action: PayloadAction<number>) => state.filter((_, i) => i !== action.payload),
@@ -28,9 +30,13 @@ export const fairSlice = createSlice({
 				return i === action.payload.index ? newContent : item;
 			});
 		},
+		filterOnlineFair: (state) => {
+			const filtered = state.filter((item) => onlineCategoryValues.some((category) => category === item.category));
+			return filtered.length ? filtered : initialState;
+		},
 	},
 });
 
-export const { addFair, deleteFair, setFairCategory, setFairUnit } = fairSlice.actions;
+export const { addFair, deleteFair, setFairCategory, setFairUnit, filterOnlineFair } = fairSlice.actions;
 
 export default fairSlice.reducer;

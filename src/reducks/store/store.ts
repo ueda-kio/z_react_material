@@ -5,6 +5,7 @@ export const store = configureStore({
 	reducer: {
 		reservation: Slices.reservationReducer,
 		fair: Slices.fairReducer,
+		online: Slices.onlineReducer,
 		receptionUnit: Slices.receptionUnitReducer,
 		condition: Slices.conditionReducer,
 	},
