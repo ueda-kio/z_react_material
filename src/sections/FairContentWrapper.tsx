@@ -10,6 +10,7 @@ import utils from '../style/Utils';
 import { useAppDispatch, useFairSelector, useIsOnlineSelector } from '../reducks/hooks';
 import { addFair } from '../reducks/slice/fairSlice';
 import { isSelectedNormalFairCategory, normalCategoryValues, onlineCategoryValues } from '../reducks/slice/onlineSlice';
+import AlertMessage from '../components/utils/AlertMessage';
 
 const style = css`
 	& + & {
@@ -103,13 +104,23 @@ const FairContentWrapper = () => {
 	return (
 		<Section title="フェア内容">
 			<SectionItem title="フェアコンテンツ">
-				<AnimatePresence>
-					{fair.map((content, i) => (
-						<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} css={style} key={content.id}>
-							<FairContent index={i} categories={categories} setCategories={setCategories} />
-						</motion.div>
-					))}
-				</AnimatePresence>
+				{fair.length ? (
+					<AnimatePresence>
+						{fair.map((content, i) => (
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+								css={style}
+								key={content.id}
+							>
+								<FairContent index={i} categories={categories} setCategories={setCategories} />
+							</motion.div>
+						))}
+					</AnimatePresence>
+				) : (
+					<AlertMessage text="フェアコンテンツを1つ以上設定してください" />
+				)}
 				<Button.Secondary sx={{ marginTop: 4 }} onClick={handleClickAddFair}>
 					フェアコンテンツの追加
 				</Button.Secondary>
