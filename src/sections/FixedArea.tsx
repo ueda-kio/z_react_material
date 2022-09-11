@@ -10,11 +10,12 @@ const style = {
 		display: flex;
 		align-items: center;
 		justify-content: end;
-		width: 1000px;
+		width: 990px;
 		padding: 20px 40px;
 		background-color: #fff;
 		box-shadow: ${utils.boxShadow};
 		transition: opacity 0.15s, visibility 0.15s;
+		z-index: 100;
 
 		&.is-hidden {
 			opacity: 0;

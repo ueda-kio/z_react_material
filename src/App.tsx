@@ -17,6 +17,7 @@ const style = css`
 	display: grid;
 	gap: 16px;
 	width: 1000px;
+	padding: 10px;
 `;
 
 const App: React.FC = () => {
@@ -28,17 +29,19 @@ const App: React.FC = () => {
 	const ScheduleMemo = useMemo(() => <Schedule />, []);
 
 	return (
-		<form css={style}>
+		<>
 			<GlobalStyle />
 			<ThemeProvider theme={customTheme}>
-				{BasicInfoMemo}
-				{ReceptionMemo}
-				{FairContentWrapperMemo}
-				{ScheduleMemo}
-				<BottomArea setIsBottomViewed={setIsBottomViewed} />
+				<form css={style}>
+					{BasicInfoMemo}
+					{ReceptionMemo}
+					{FairContentWrapperMemo}
+					{ScheduleMemo}
+					<BottomArea setIsBottomViewed={setIsBottomViewed} />
+				</form>
 				<FixedArea isBottomViewed={isBottomViewed} />
 			</ThemeProvider>
-		</form>
+		</>
 	);
 };
 
