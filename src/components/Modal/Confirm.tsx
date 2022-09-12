@@ -45,11 +45,11 @@ const Confirm = (props: MyDialogProps) => {
 				<em css={style.title}>ご注意ください</em>
 				<Typography sx={{ mt: 4 }}>オンライン相談会で設定できないフェアコンテンツは削除されます。よろしいですか？</Typography>
 				<Typography sx={{ mt: 4, fontSize: 14 }}>以下のコンテンツが削除されます</Typography>
-				{selectedNormalFair.map((fair) => (
-					<ul css={style.list}>
+				<ul css={style.list}>
+					{selectedNormalFair.map((fair, i) => (
 						<li key={fair}>{fair}</li>
-					</ul>
-				))}
+					))}
+				</ul>
 				<Box css={style.buttonWrapper}>
 					<Button.Secondary onClick={() => onClose('cancel')}>取り消す</Button.Secondary>
 					<Button.Primary onClick={() => onClose('ok')}>続行</Button.Primary>
