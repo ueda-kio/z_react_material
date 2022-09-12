@@ -37,7 +37,7 @@ const ScheduleWrapper = () => {
 	const {
 		condition: { isMultiEvent },
 	} = useConditionSelector();
-	const [times, setTimes] = useState([] as { id: string }[]);
+	const [times, setTimes] = useState<{ id: string }[]>([]);
 
 	const handleClickAddTime = useCallback(() => {
 		setTimes((v) => [...v, { id: nanoid() }]);

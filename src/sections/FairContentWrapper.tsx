@@ -7,10 +7,11 @@ import * as Button from '../components/Button';
 import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
 import utils from '../style/Utils';
-import { useAppDispatch, useFairSelector, useIsOnlineSelector } from '../reducks/hooks';
+import { useAppDispatch, useFairCategorySelector, useFairSelector, useIsOnlineSelector } from '../reducks/hooks';
 import { addFair } from '../reducks/slice/fairSlice';
 import { isSelectedNormalFairCategory, normalCategoryValues, onlineCategoryValues } from '../reducks/slice/onlineSlice';
 import AlertMessage from '../components/utils/AlertMessage';
+import { disabledNormalFairs } from '../reducks/slice/fairCategorySlice';
 
 const style = css`
 	& + & {
@@ -20,20 +21,21 @@ const style = css`
 	}
 `;
 
+const categoriesList = [
+	{ id: nanoid(), value: '01', text: '相談会', disabled: false },
+	{ id: nanoid(), value: '02', text: '模擬挙式', disabled: false },
+	{ id: nanoid(), value: '03', text: '模擬披露宴', disabled: false },
+	{ id: nanoid(), value: '04', text: '試食会', disabled: false },
+	{ id: nanoid(), value: '05', text: '試着会', disabled: false },
+	{ id: nanoid(), value: '06', text: 'その他１', disabled: false },
+	{ id: nanoid(), value: '07', text: 'その他２', disabled: false },
+];
+
 const FairContentWrapper = () => {
 	const dispatch = useAppDispatch();
 	const { fair } = useFairSelector();
+	const { fairCategory } = useFairCategorySelector();
 	const { online } = useIsOnlineSelector();
-
-	const categoriesList = [
-		{ id: nanoid(), value: '01', text: '相談会', disabled: false },
-		{ id: nanoid(), value: '02', text: '模擬挙式', disabled: false },
-		{ id: nanoid(), value: '03', text: '模擬披露宴', disabled: false },
-		{ id: nanoid(), value: '04', text: '試食会', disabled: false },
-		{ id: nanoid(), value: '05', text: '試着会', disabled: false },
-		{ id: nanoid(), value: '06', text: 'その他１', disabled: false },
-		{ id: nanoid(), value: '07', text: 'その他２', disabled: false },
-	];
 	const [categories, setCategories] = useState(categoriesList);
 
 	/**
@@ -49,7 +51,7 @@ const FairContentWrapper = () => {
 				return { ...item, disabled: true };
 			});
 		});
-	}, []);
+	}, [setCategories]);
 
 	// オンライン相談会フラグが変更された場合
 	useEffect(() => {
@@ -66,9 +68,9 @@ const FairContentWrapper = () => {
 	 * @param {string[]} arr2 比較対象配列2
 	 * @returns {boolean} ２つの配列に重複した値があるかどうか
 	 */
-	const isDuplicate = (arr1: string[], arr2: string[]) => {
+	const isDuplicate = useCallback((arr1: string[], arr2: string[]) => {
 		return [...arr1, ...arr2].filter((item) => arr1.includes(item) && arr2.includes(item)).length > 0;
-	};
+	}, []);
 
 	// フェアカテゴリ選択時「通常フェア」に該当するカテゴリが選択されたかどうか
 	useEffect(() => {
@@ -114,7 +116,7 @@ const FairContentWrapper = () => {
 								css={style}
 								key={content.id}
 							>
-								<FairContent index={i} categories={categories} setCategories={setCategories} />
+								<FairContent index={i} />
 							</motion.div>
 						))}
 					</AnimatePresence>

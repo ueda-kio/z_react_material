@@ -10,9 +10,10 @@ import AlertMessage from '../../components/utils/AlertMessage';
 import utils from '../../style/Utils';
 import CaptionText from '../../components/utils/Caption';
 import Images from './Images';
-import { useAppDispatch, useFairSelector, useReservationSelector } from '../../reducks/hooks';
+import { useAppDispatch, useFairCategorySelector, useFairSelector, useReservationSelector } from '../../reducks/hooks';
 import { deleteFair, setFairCategory, setFairUnit } from '../../reducks/slice/fairSlice';
 import { changeNoReservation } from '../../reducks/slice/reservationSlice';
+import { enableSelectedCategory, selectCategory } from '../../reducks/slice/fairCategorySlice';
 
 const style = {
 	contents: css`
@@ -25,26 +26,34 @@ const style = {
 	`,
 };
 
-type CategoriesType = { id: string; value: string; text: string; disabled: boolean }[];
-type Props = {
-	index: number;
-	categories: CategoriesType;
-	setCategories: React.Dispatch<React.SetStateAction<CategoriesType>>;
-};
-
-const FairContent: React.FC<Props> = ({ index, categories }) => {
+const FairContent = ({ index }: { index: number }) => {
 	const dispatch = useAppDispatch();
 	const {
 		reservation: { isSummarize, isRealTime, isNoReservation },
 	} = useReservationSelector();
 	const { fair } = useFairSelector();
+	const { fairCategory } = useFairCategorySelector();
 
 	const [receptionTypeValue, setReceptionTypeValue] = useState('');
 	const [paid, setPaid] = useState({ paid: '', charge: '', participants: '' });
 
-	const handleChangeCategory = (e: { target: { value: string } }) => {
-		const selectedValue = e.target.value;
-	};
+	/**
+	 * カテゴリ選択時
+	 * - fairCategoryStateに保存
+	 */
+	const handleChangeCategory = useCallback(
+		(e: { target: { value: string } }) => {
+			const selectedValue = e.target.value;
+			const prevValue = fair[index].category;
+			dispatch(
+				selectCategory({
+					selectedValue,
+					prevValue,
+				})
+			);
+		},
+		[fair, fairCategory]
+	);
 
 	/**
 	 * 選択された受付単位をfairContentに格納する
@@ -67,7 +76,11 @@ const FairContent: React.FC<Props> = ({ index, categories }) => {
 	 * 「削除」ボタンからコンテンツを削除する
 	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
 	 */
-	const deleteSelf = () => dispatch(deleteFair(index));
+	const deleteSelf = () => {
+		const selectedValue = fair[index].category;
+		dispatch(enableSelectedCategory(selectedValue));
+		dispatch(deleteFair(index));
+	};
 
 	return (
 		<Cassette.Cassette
@@ -84,7 +97,7 @@ const FairContent: React.FC<Props> = ({ index, categories }) => {
 									setCategoryNameToState(e);
 								}}
 							>
-								{categories.map((category) => (
+								{fairCategory.map((category) => (
 									<MenuItem key={category.id} value={category.value} disabled={category.disabled}>
 										{category.text}
 									</MenuItem>

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Box, css, Modal, RadioGroup, Typography } from '@mui/material';
+import { css, RadioGroup } from '@mui/material';
 import { useAppDispatch, useFairSelector, useIsOnlineSelector } from '../reducks/hooks';
 import Section from '../components/Section';
 import SectionItem from '../components/SectionItem';
 import * as Input from '../components/Input';
 import * as TextBox from '../components/TextBox';
-import * as Button from '../components/Button';
 import { isOnline, onlineCategoryValues } from '../reducks/slice/onlineSlice';
 import { filterOnlineFair } from '../reducks/slice/fairSlice';
 import Confirm, { MyDialogProps } from '../components/Modal/Confirm';
+import { disabledNormalFairs, enableNormalFairs } from '../reducks/slice/fairCategorySlice';
 
 const style = {
 	modal: css`
@@ -76,8 +76,10 @@ const BasicInfo = () => {
 			}
 			dispatch(isOnline(true));
 			dispatch(filterOnlineFair());
+			dispatch(disabledNormalFairs());
 		} else {
 			dispatch(isOnline(false));
+			dispatch(enableNormalFairs());
 		}
 		setFairType(e.target.value);
 	};

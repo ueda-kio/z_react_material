@@ -40,6 +40,11 @@ const style = {
 	`,
 };
 
+/**
+ * フェアカテゴリ一覧
+ */
+const categories = ['相談会', '模擬挙式', '模擬披露宴', '試食会', '試着会', 'その他1', 'その他2'];
+
 const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 	const dispatch = useAppDispatch();
 	const {
@@ -48,19 +53,21 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 	const { receptionUnit } = useReceptionUnitSelector();
 
 	const [cassette, setCassette] = useState([{ id: nanoid() }]);
-	const categories = ['相談会', '模擬挙式', '模擬披露宴', '試食会', '試着会'];
 
 	/**
 	 * 「削除」ボタンからコンテンツを削除する
 	 * - filterメソッドから自分を除いた配列をsetStateに渡すことで、配列から特定の要素を削除する
 	 */
-	const deleteSelf = (id: string) => {
-		setCassette(cassette.filter((item) => item.id !== id));
-	};
+	const deleteSelf = useCallback(
+		(id: string) => {
+			setCassette(cassette.filter((item) => item.id !== id));
+		},
+		[cassette, setCassette]
+	);
 
 	const addScheduleContent = useCallback(() => {
 		setCassette((prev) => [...prev, { id: nanoid() }]);
-	}, []);
+	}, [setCassette]);
 
 	return (
 		<Cassette.Cassette title={categories[Number(category) - 1]}>
