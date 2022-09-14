@@ -69,7 +69,7 @@ const Images = () => {
 						</Reorder.Item>
 					))}
 				</AnimatePresence>
-				{images.length < 3 ? (
+				{images.length < 3 && (
 					<motion.li
 						initial={{ opacity: 0, display: 'none' }}
 						animate={{ opacity: 1, display: 'initial' }}
@@ -83,8 +83,6 @@ const Images = () => {
 							noSelect={{ isNoSelect: true, handleClick: addPhoto }}
 						/>
 					</motion.li>
-				) : (
-					false
 				)}
 			</Reorder.Group>
 		</div>

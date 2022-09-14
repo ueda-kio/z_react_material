@@ -75,56 +75,53 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 				<AlertMessage text="開催時間を１つ以上選択してください。" />
 			) : (
 				<AnimatePresence>
-					{cassette.map((item, i) =>
-						isSummarize && i > 0 ? (
-							false
-						) : (
-							<motion.div
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								exit={{ opacity: 0 }}
-								css={style.wrapper}
-								key={item.id}
-							>
-								<div css={style.head}>
-									<div css={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-										<TextBox.Normal label="開始時間" />
-										{isRealTime ? (
-											<div css={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-												<TextBox.Normal
-													label="予約枠"
-													sx={{ width: 100 }}
-													value={receptionUnit.number}
-													disabled={isSummarize ? true : false}
-													onChange={(e) => dispatch(setReceptionNumber(e.target.value))}
-												/>
-												<Box css={isSummarize ? { opacity: 0.3 } : undefined}>
-													{isSummarize ? (
-														receptionUnit.unit === '01' ? (
-															<>名</>
-														) : (
+					{cassette.map(
+						(item, i) =>
+							(isSummarize && i > 0) || (
+								<motion.div
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									css={style.wrapper}
+									key={item.id}
+								>
+									<div css={style.head}>
+										<div css={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+											<TextBox.Normal label="開始時間" />
+											{isRealTime && (
+												<div css={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+													<TextBox.Normal
+														label="予約枠"
+														sx={{ width: 100 }}
+														value={receptionUnit.number}
+														disabled={isSummarize ? true : false}
+														onChange={(e) => dispatch(setReceptionNumber(e.target.value))}
+													/>
+													<Box css={isSummarize ? { opacity: 0.3 } : undefined}>
+														{isSummarize ? (
+															receptionUnit.unit === '01' ? (
+																<>名</>
+															) : (
+																<>組</>
+															)
+														) : unit === '02' ? (
 															<>組</>
-														)
-													) : unit === '02' ? (
-														<>組</>
-													) : (
-														<>名</>
-													)}
-												</Box>
-											</div>
-										) : (
-											false
-										)}
+														) : (
+															<>名</>
+														)}
+													</Box>
+												</div>
+											)}
+										</div>
+										<Button.Secondary onClick={() => deleteSelf(item.id)}>削除</Button.Secondary>
 									</div>
-									<Button.Secondary onClick={() => deleteSelf(item.id)}>削除</Button.Secondary>
-								</div>
-								{isSummarize ? <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" /> : false}
-								<div css={style.body}>
-									<p css={style.title}>タイトル</p>
-									<TextBox.Count limit={100} hiddenLabel fullWidth />
-								</div>
-							</motion.div>
-						)
+									{isSummarize && <AlertMessage text="まとめて予約設定中のため、種別を変更することはできません。" />}
+									<div css={style.body}>
+										<p css={style.title}>タイトル</p>
+										<TextBox.Count limit={100} hiddenLabel fullWidth />
+									</div>
+								</motion.div>
+							)
 					)}
 				</AnimatePresence>
 			)}
@@ -133,12 +130,12 @@ const ScheduleContent: React.FC<Props> = ({ category, unit }) => {
 					<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
 						開催時間を追加
 					</Button.Secondary>
-				) : !cassette.length ? (
-					<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
-						開催時間を追加
-					</Button.Secondary>
 				) : (
-					false
+					!cassette.length && (
+						<Button.Secondary sx={{ marginTop: 4 }} size="small" onClick={addScheduleContent}>
+							開催時間を追加
+						</Button.Secondary>
+					)
 				)}
 			</>
 		</Cassette.Cassette>

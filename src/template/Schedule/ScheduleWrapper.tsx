@@ -50,22 +50,22 @@ const ScheduleWrapper = () => {
 		<>
 			<div css={style.wrapper}>
 				<div css={style.timeInput}>
-					{isMultiEvent ? <span>第1部:</span> : false}
+					{isMultiEvent && <span>第1部:</span>}
 					<TextBox.Normal label="開始時間" />
 				</div>
 				<ol css={style.contents}>
 					{fair.map((item) => {
-						return !item.category ? ( // カテゴリ選択前は非表示
-							false
-						) : (
-							<li key={item.id} css={style.contentsItem}>
-								<ScheduleContent category={item.category} unit={item.unit} />
-							</li>
+						return (
+							!item.category || (
+								<li key={item.id} css={style.contentsItem}>
+									<ScheduleContent category={item.category} unit={item.unit} />
+								</li>
+							)
 						);
 					})}
 				</ol>
 			</div>
-			{isMultiEvent ? (
+			{isMultiEvent && (
 				<AnimatePresence>
 					<motion.div
 						key="second_schedule"
@@ -80,12 +80,12 @@ const ScheduleWrapper = () => {
 						</div>
 						<ol css={style.contents}>
 							{fair.map((item) => {
-								return !item.category ? ( // カテゴリ選択前は非表示
-									false
-								) : (
-									<li key={item.id} css={style.contentsItem}>
-										<ScheduleContent category={item.category} unit={item.unit} />
-									</li>
+								return (
+									!item.category || (
+										<li key={item.id} css={style.contentsItem}>
+											<ScheduleContent category={item.category} unit={item.unit} />
+										</li>
+									)
 								);
 							})}
 						</ol>
@@ -100,34 +100,30 @@ const ScheduleWrapper = () => {
 						>
 							<div css={[style.timeInput, { justifyContent: 'space-between' }]}>
 								<div css={style.timeInput}>
-									{isMultiEvent ? <span>第{i + 3}部:</span> : false}
+									{isMultiEvent && <span>第{i + 3}部:</span>}
 									<TextBox.Normal label="開始時間" />
 								</div>
 								<Button.Secondary onClick={() => handleClickDeleteTime(time.id)}>第{i + 3}部を削除</Button.Secondary>
 							</div>
 							<ol css={style.contents}>
 								{fair.map((item) => {
-									return !item.category ? ( // カテゴリ選択前は非表示
-										false
-									) : (
-										<li key={item.id} css={style.contentsItem}>
-											<ScheduleContent category={item.category} unit={item.unit} />
-										</li>
+									return (
+										!item.category || (
+											<li key={item.id} css={style.contentsItem}>
+												<ScheduleContent category={item.category} unit={item.unit} />
+											</li>
+										)
 									);
 								})}
 							</ol>
 						</motion.div>
 					))}
-					{times.length < 3 ? (
+					{times.length < 3 && (
 						<Button.Secondary sx={{ marginTop: 6 }} onClick={handleClickAddTime}>
 							部を追加（第5部まで追加可能）
 						</Button.Secondary>
-					) : (
-						false
 					)}
 				</AnimatePresence>
-			) : (
-				false
 			)}
 		</>
 	);

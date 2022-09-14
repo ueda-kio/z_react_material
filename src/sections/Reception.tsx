@@ -84,7 +84,7 @@ const Reception = () => {
 				<div>
 					<RadioGroup name="reception" value={isNoReservation ? '03' : reception} onChange={(e) => handleChangeReception(e)}>
 						<Input.Radio label="ネット・電話予約受付" value="01" />
-						{!isNoReservation && reception === '01' ? (
+						{!isNoReservation && reception === '01' && (
 							<div css={style.checkedContent}>
 								<div css={style.dateColumn}>
 									<span>
@@ -109,12 +109,10 @@ const Reception = () => {
 												setLocalRealTime(e.target.checked);
 											}}
 										/>
-										{localRealTime ? (
+										{localRealTime && (
 											<div css={style.checkedContent}>
 												<Input.CheckBox label="イベント残枠によってリクエスト予約に切替" isSmall={true} />
 											</div>
-										) : (
-											false
 										)}
 									</div>
 									<div>
@@ -130,8 +128,8 @@ const Reception = () => {
 												}
 											}}
 										/>
-										{isMultiEvent ? <AlertMessage text="複数部制設定時は、まとめて予約を選択できません。" /> : false}
-										{localSummarize ? (
+										{isMultiEvent && <AlertMessage text="複数部制設定時は、まとめて予約を選択できません。" />}
+										{localSummarize && (
 											<>
 												<dl css={style.checkedContent}>
 													<div css={style.summarizeContent}>
@@ -153,7 +151,7 @@ const Reception = () => {
 														</dd>
 													</div>
 												</dl>
-												{receptionUnit.unit ? (
+												{receptionUnit.unit && (
 													<div css={style.unitColum}>
 														<TextBox.Normal
 															hiddenLabel={true}
@@ -167,21 +165,15 @@ const Reception = () => {
 														/>
 														{receptionUnit.unit === '01' ? <>名</> : <>組</>}まで受付
 													</div>
-												) : (
-													false
 												)}
 											</>
-										) : (
-											false
 										)}
 									</div>
 								</div>
 							</div>
-						) : (
-							false
 						)}
 						<Input.Radio value="02" label="電話のみ" />
-						{!isNoReservation && reception === '02' ? (
+						{!isNoReservation && reception === '02' && (
 							<div css={style.checkedContent}>
 								<div css={style.dateColumn}>
 									<span>
@@ -197,8 +189,6 @@ const Reception = () => {
 									日前まで可能
 								</div>
 							</div>
-						) : (
-							false
 						)}
 						<Input.Radio value="03" label="予約不要" />
 					</RadioGroup>

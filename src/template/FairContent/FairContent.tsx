@@ -129,7 +129,7 @@ const FairContent = ({ index }: { index: number }) => {
 					{isNoReservation ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
 				</>
 			</Cassette.CassetteList>
-			{isRealTime ? (
+			{isRealTime && (
 				<Cassette.CassetteList title="受付単位">
 					<>
 						<RadioGroup row onChange={setUnitToState}>
@@ -140,15 +140,13 @@ const FairContent = ({ index }: { index: number }) => {
 						{isNoReservation ? <AlertMessage text="予約不要が設定中は予約種別を変更できません" /> : false}
 					</>
 				</Cassette.CassetteList>
-			) : (
-				false
 			)}
 			<Cassette.CassetteList title="料金">
 				<RadioGroup row name="price" value={paid.paid} onChange={(e) => setPaid((v) => ({ ...v, paid: e.target.value }))}>
 					<Input.Radio value="01" label="無料" />
 					<Input.Radio value="02" label="有料" />
 				</RadioGroup>
-				{paid.paid === '02' ? (
+				{paid.paid === '02' && (
 					<>
 						<Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3, marginTop: 2 }}>
 							<TextBox.Normal
@@ -165,8 +163,6 @@ const FairContent = ({ index }: { index: number }) => {
 						<CaptionText cssProps={style.caption} text="料金は消費税込みの単位付き総額で記入してください。" />
 						<CaptionText text="例)¥5,000" />
 					</>
-				) : (
-					false
 				)}
 			</Cassette.CassetteList>
 			<Cassette.Cassette title="詳細情報">
