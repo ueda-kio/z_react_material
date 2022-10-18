@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { nanoid } from 'nanoid';
+import { nanoid } from '@reduxjs/toolkit';
 import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import { AnimatePresence, motion } from 'framer-motion';

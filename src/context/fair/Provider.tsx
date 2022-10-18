@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { nanoid } from 'nanoid';
+import { nanoid } from '@reduxjs/toolkit';
 import FairContext from './context';
 import { fairReducer } from './reducer';
 

@@ -1,6 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
 import { onlineCategoryValues } from './onlineSlice';
 
 const initialState = [{ id: nanoid(), category: '', unit: '' }];

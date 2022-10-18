@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { AnimatePresence, motion, Reorder } from 'framer-motion';
-import { nanoid } from 'nanoid';
+import { nanoid } from '@reduxjs/toolkit';
 import { css } from '@emotion/react';
 import Image from '../../components/Image/Image';
 import utils from '../../style/Utils';

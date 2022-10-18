@@ -1,6 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
 
 const initialState = [
 	{ id: nanoid(), value: '01', text: '相談会', selected: false, disabled: false },

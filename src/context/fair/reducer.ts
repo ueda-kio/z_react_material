@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+import { nanoid } from '@reduxjs/toolkit';
 import { FairContents } from './context';
 
 export type Action = {
